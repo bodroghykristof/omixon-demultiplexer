@@ -10,39 +10,30 @@ class ConfigSectionTest {
 
     @Test
     void testInitStrategyWithBestAlignment() {
-        // Given
         Allignment alignment = Allignment.BEST;
 
-        // When
         ConfigSection configSection = new ConfigSection(alignment);
 
-        // Then
         assertInstanceOf(BestMatchGroupingStrategy.class, configSection.getGroupingStrategy(),
                 "Expected BestMatchGroupingStrategy for BEST alignment");
     }
 
     @Test
     void testInitStrategyWithEndsAlignment() {
-        // Given
         Allignment alignment = Allignment.ENDS;
 
-        // When
         ConfigSection configSection = new ConfigSection(alignment);
 
-        // Then
         assertInstanceOf(FirstHitGroupingStrategy.class, configSection.getGroupingStrategy(),
                 "Expected FirstHitGroupingStrategy for ENDS alignment");
     }
 
     @Test
     void testInitStrategyWithMidAlignment() {
-        // Given
         Allignment alignment = Allignment.MID;
 
-        // When
         ConfigSection configSection = new ConfigSection(alignment);
 
-        // Then
         assertInstanceOf(FirstHitGroupingStrategy.class, configSection.getGroupingStrategy(),
                 "Expected FirstHitGroupingStrategy for MID alignment");
     }
