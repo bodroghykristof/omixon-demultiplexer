@@ -1,11 +1,14 @@
 package hu.omixon.demultiplexer.service;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import hu.omixon.demultiplexer.configuration.DemultiplexerConfiguration;
 import hu.omixon.demultiplexer.configuration.result.DemultiplexerResult;
 import hu.omixon.demultiplexer.sequence.Sequence;
 import hu.omixon.demultiplexer.sequence.SequenceSample;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.List;
@@ -13,6 +16,7 @@ import java.util.List;
 public class IOService {
 
     public SequenceSample readSequences(String sequenceSampleFilePath) throws IOException {
+
         List<Sequence> sequences;
 
         try (BufferedReader reader = new BufferedReader(new FileReader(sequenceSampleFilePath))) {
@@ -29,7 +33,10 @@ public class IOService {
         return new SequenceSample(sequences);
     }
 
-    public DemultiplexerConfiguration readConfiguration(String configFilePath) {
+    public DemultiplexerConfiguration readConfiguration(String configFilePath) throws IOException {
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        JsonNode configJson = objectMapper.readTree(new File(configFilePath));
         // TODO read sequence data
         return null;
     }
