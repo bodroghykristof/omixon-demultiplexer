@@ -15,4 +15,13 @@ public enum Allignment {
         this.name = name;
     }
 
+    public static Allignment findByName(String name) {
+        for (Allignment alignment : values()) {
+            if (alignment.getName().equalsIgnoreCase(name)) {
+                return alignment;
+            }
+        }
+        throw new IllegalArgumentException("No Allignment found with name: " + name);
+    }
+
 }
