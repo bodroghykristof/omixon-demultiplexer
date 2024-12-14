@@ -22,6 +22,7 @@ class IOServiceTest {
 
         assertThrows(FileNotFoundException.class, () -> ioService.readSequences(absolutePath));
     }
+
     @Test
     void testReadSequences_EmptyFile() {
         String absolutePath = ResourceUtil.getAsAbsolutePath(RESOURCE_DIR + "/empty.seq");
@@ -55,5 +56,11 @@ class IOServiceTest {
 
     }
 
+    @Test
+    void testReadSequences_InvalidFile() {
+        String absolutePath = ResourceUtil.getAsAbsolutePath(RESOURCE_DIR + "/invalid_sequence.seq");
+
+        assertThrows(IllegalArgumentException.class, () -> ioService.readSequences(absolutePath));
+    }
 
 }
