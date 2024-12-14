@@ -2,8 +2,9 @@ package hu.omixon.demultiplexer.configuration;
 
 import hu.omixon.demultiplexer.configuration.rule.*;
 import lombok.Getter;
+import lombok.ToString;
 
-@Getter
+@Getter @ToString
 public class ConfigGroupDefinition {
 
     private final String groupName;
