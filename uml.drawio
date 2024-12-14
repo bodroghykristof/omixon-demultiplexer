@@ -1,6 +1,6 @@
 <mxfile host="app.diagrams.net" agent="Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36" version="25.0.3">
   <diagram name="1 oldal" id="gJgrqShFCkPL8RjyrLo0">
-    <mxGraphModel dx="1845" dy="530" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+    <mxGraphModel dx="2498" dy="748" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -13,7 +13,7 @@
         <mxCell id="IwMsbEK7kWu3GnN3jvoc-4" value="+ readSequences(sequenceSampleFilePath: string): SequenceSample" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="IwMsbEK7kWu3GnN3jvoc-1">
           <mxGeometry y="34" width="630" height="26" as="geometry" />
         </mxCell>
-        <mxCell id="IwMsbEK7kWu3GnN3jvoc-13" value="+ readConfiguration(configFilePath: string): SequenceSample" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="IwMsbEK7kWu3GnN3jvoc-1">
+        <mxCell id="IwMsbEK7kWu3GnN3jvoc-13" value="+ readConfiguration(configFilePath: string): DemultiplexerConfiguration" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="IwMsbEK7kWu3GnN3jvoc-1">
           <mxGeometry y="60" width="630" height="26" as="geometry" />
         </mxCell>
         <mxCell id="IwMsbEK7kWu3GnN3jvoc-59" value="+ writeResultToFiles(result: DemultiplexerResult, outputPrefix: string): SequenceSample" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="IwMsbEK7kWu3GnN3jvoc-1">
