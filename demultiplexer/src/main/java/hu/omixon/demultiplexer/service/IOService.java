@@ -8,25 +8,18 @@ import hu.omixon.demultiplexer.sequence.SequenceSample;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 public class IOService {
 
     public SequenceSample readSequences(String sequenceSampleFilePath) throws IOException {
-
-        List<Sequence> sequences = new ArrayList<>();
+        List<Sequence> sequences;
 
         try (BufferedReader reader = new BufferedReader(new FileReader(sequenceSampleFilePath))) {
-
-            String line;
-            while ((line = reader.readLine()) != null) {
-
-                if (!line.isEmpty()) {
-                    sequences.add(Sequence.fromBaseChain(line));
-                }
-
-            }
+            sequences = reader.lines()
+                            .filter(line -> !line.isEmpty())
+                            .map(Sequence::fromBaseChain)
+                            .toList();
         }
 
         if (sequences.isEmpty()) {
