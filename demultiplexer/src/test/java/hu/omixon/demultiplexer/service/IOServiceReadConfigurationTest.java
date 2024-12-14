@@ -19,7 +19,7 @@ class IOServiceReadConfigurationTest {
 
     private final IOService ioService = new IOService();
 
-    private static final String RESOURCE_DIR = "read_configuration";
+    private static final String RESOURCE_DIR = "read_configuration/";
 
     @Test
     void testReadConfiguration_NotExistingFile() {
@@ -30,14 +30,14 @@ class IOServiceReadConfigurationTest {
 
     @Test
     void testReadConfiguration_NotJsonFile() {
-        String absolutePath = ResourceUtil.getAsAbsolutePath(RESOURCE_DIR + "/not_json.conf");
+        String absolutePath = ResourceUtil.getAsAbsolutePath(RESOURCE_DIR + "not_json.conf");
 
         assertThrows(JsonParseException.class, () -> ioService.readConfiguration(absolutePath));
     }
 
     @Test
     void testReadConfiguration_InvalidSequenceInConfig() {
-        String absolutePath = ResourceUtil.getAsAbsolutePath(RESOURCE_DIR + "/invalid_sequence_in_config.conf");
+        String absolutePath = ResourceUtil.getAsAbsolutePath(RESOURCE_DIR + "invalid_sequence_in_config.conf");
 
         assertThrows(IllegalArgumentException.class, () -> ioService.readConfiguration(absolutePath));
     }
@@ -74,7 +74,7 @@ class IOServiceReadConfigurationTest {
 
     @Test
     void testReadConfiguration_WithPartialConfig() throws IOException {
-        String absolutePath = ResourceUtil.getAsAbsolutePath(RESOURCE_DIR + "/incomplete_config.conf");
+        String absolutePath = ResourceUtil.getAsAbsolutePath(RESOURCE_DIR + "incomplete_config.conf");
 
         DemultiplexerConfiguration configuration = ioService.readConfiguration(absolutePath);
 
@@ -90,16 +90,16 @@ class IOServiceReadConfigurationTest {
 
     private static Stream<String> provideFileNamesForEmptyConfigurationTests() {
         return Stream.of(
-                "/empty.conf",
-                "/empty_obj.conf",
-                "/only_foreign_fields.conf"
+                "empty.conf",
+                "empty_obj.conf",
+                "only_foreign_fields.conf"
         );
     }
 
     private static Stream<String> provideFileNamesForSuccessfulTests() {
         return Stream.of(
-                "/normal_config.conf",
-                "/foreign_fields.conf"
+                "normal_config.conf",
+                "foreign_fields.conf"
         );
     }
 
