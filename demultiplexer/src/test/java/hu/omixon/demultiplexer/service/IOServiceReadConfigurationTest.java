@@ -35,6 +35,13 @@ class IOServiceReadConfigurationTest {
         assertThrows(JsonParseException.class, () -> ioService.readConfiguration(absolutePath));
     }
 
+    @Test
+    void testReadConfiguration_InvalidSequenceInConfig() {
+        String absolutePath = ResourceUtil.getAsAbsolutePath(RESOURCE_DIR + "/invalid_sequence_in_config.conf");
+
+        assertThrows(IllegalArgumentException.class, () -> ioService.readConfiguration(absolutePath));
+    }
+
     @ParameterizedTest
     @MethodSource("provideFileNamesForEmptyConfigurationTests")
     void testReadConfiguration_InvalidFiles(String fileName) {
