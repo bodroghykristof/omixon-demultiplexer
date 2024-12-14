@@ -18,4 +18,13 @@ public enum NucleotideBase {
         this.longName = longName;
     }
 
+    public static NucleotideBase findByShortName(String shortName) {
+        for (NucleotideBase base : values()) {
+            if (base.getShortName().equalsIgnoreCase(shortName)) {
+                return base;
+            }
+        }
+        throw new IllegalArgumentException("No NucleotideBase found with short name: " + shortName);
+    }
+
 }
