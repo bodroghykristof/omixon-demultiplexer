@@ -18,7 +18,7 @@ class IOServiceReadSequenceTest {
 
     @Test
     void testReadSequences_NotExistingFile() {
-        String absolutePath = ResourceUtil.getAsAbsolutePath(RESOURCE_DIR + "/no-such-file.seq");
+        String absolutePath = ResourceUtil.getAsAbsolutePath(RESOURCE_DIR + "/no_such_file.seq");
 
         assertThrows(FileNotFoundException.class, () -> ioService.readSequences(absolutePath));
     }
