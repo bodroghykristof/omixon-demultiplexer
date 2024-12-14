@@ -1,8 +1,11 @@
 package hu.omixon.demultiplexer.configuration;
 
+import lombok.Getter;
+
 import java.util.ArrayList;
 import java.util.List;
 
+@Getter
 public class DemultiplexerConfiguration {
 
     private List<ConfigSection> sections;
