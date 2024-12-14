@@ -6,9 +6,12 @@ import hu.omixon.demultiplexer.configuration.ConfigSection;
 import hu.omixon.demultiplexer.configuration.DemultiplexerConfiguration;
 import hu.omixon.demultiplexer.util.ResourceUtil;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -32,33 +35,19 @@ class IOServiceReadConfigurationTest {
         assertThrows(JsonParseException.class, () -> ioService.readConfiguration(absolutePath));
     }
 
-    @Test
-    void testReadConfiguration_EmptyFile() {
-        String absolutePath = ResourceUtil.getAsAbsolutePath(RESOURCE_DIR + "/empty.conf");
+    @ParameterizedTest
+    @MethodSource("provideFileNamesForEmptyConfigurationTests")
+    void testReadConfiguration_InvalidFiles(String fileName) {
+        String absolutePath = ResourceUtil.getAsAbsolutePath(RESOURCE_DIR + fileName);
 
         Exception exception = assertThrows(IllegalArgumentException.class, () -> ioService.readConfiguration(absolutePath));
         assertEquals("Configuration sections cannot be empty", exception.getMessage());
     }
 
-    @Test
-    void testReadConfiguration_EmptyObject() {
-        String absolutePath = ResourceUtil.getAsAbsolutePath(RESOURCE_DIR + "/empty_obj.conf");
-
-        Exception exception = assertThrows(IllegalArgumentException.class, () -> ioService.readConfiguration(absolutePath));
-        assertEquals("Configuration sections cannot be empty", exception.getMessage());
-    }
-
-    @Test
-    void testReadConfiguration_OnlyForeignFieldsObject() {
-        String absolutePath = ResourceUtil.getAsAbsolutePath(RESOURCE_DIR + "/only_foreign_fields.conf");
-
-        Exception exception = assertThrows(IllegalArgumentException.class, () -> ioService.readConfiguration(absolutePath));
-        assertEquals("Configuration sections cannot be empty", exception.getMessage());
-    }
-
-    @Test
-    void testReadConfiguration_NormalObject() throws IOException {
-        String absolutePath = ResourceUtil.getAsAbsolutePath(RESOURCE_DIR + "/normal_config.conf");
+    @ParameterizedTest
+    @MethodSource("provideFileNamesForSuccessfulTests")
+    void testReadConfiguration_SuccessfulCases(String fileName) throws IOException {
+        String absolutePath = ResourceUtil.getAsAbsolutePath(RESOURCE_DIR + fileName);
 
         DemultiplexerConfiguration configuration = ioService.readConfiguration(absolutePath);
 
@@ -74,6 +63,37 @@ class IOServiceReadConfigurationTest {
         assertEquals(2, midSection.getGroupDefinitions().size());
         assertEquals(1, bestSection.getGroupDefinitions().size());
 
+    }
+
+    @Test
+    void testReadConfiguration_WithPartialConfig() throws IOException {
+        String absolutePath = ResourceUtil.getAsAbsolutePath(RESOURCE_DIR + "/incomplete_config.conf");
+
+        DemultiplexerConfiguration configuration = ioService.readConfiguration(absolutePath);
+
+        ConfigSection endsSection = configuration.findSectionByAllignment(Allignment.ENDS);
+        ConfigSection bestSection = configuration.findSectionByAllignment(Allignment.BEST);
+
+        assertNotNull(endsSection);
+        assertNotNull(bestSection);
+
+        assertThrows(IllegalArgumentException.class, () -> configuration.findSectionByAllignment(Allignment.MID));
+
+    }
+
+    private static Stream<String> provideFileNamesForEmptyConfigurationTests() {
+        return Stream.of(
+                "/empty.conf",
+                "/empty_obj.conf",
+                "/only_foreign_fields.conf"
+        );
+    }
+
+    private static Stream<String> provideFileNamesForSuccessfulTests() {
+        return Stream.of(
+                "/normal_config.conf",
+                "/foreign_fields.conf"
+        );
     }
 
 }
