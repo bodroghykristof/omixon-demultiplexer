@@ -64,21 +64,24 @@ public class IOService {
 
         Iterator<Map.Entry<String, JsonNode>> groups = allignmentNode.fields();
         while (groups.hasNext()) {
-
-            Map.Entry<String, JsonNode> field = groups.next();
-
-            Sequence prefixSequence = getSequenceForRule(field.getValue(), "prefix");
-            Sequence postfixSequence = getSequenceForRule(field.getValue(), "postfix");
-            Sequence infixSequence = getSequenceForRule(field.getValue(), "infix");
-
-            RuleParams ruleParams = new RuleParams(prefixSequence, postfixSequence, infixSequence);
-
-            ConfigGroupDefinition groupDefinition = new ConfigGroupDefinition(field.getKey(), allignment, ruleParams);
+            ConfigGroupDefinition groupDefinition = getConfigGroupDefinition(allignment, groups);
             configSection.addGroupDefinition(groupDefinition);
         }
 
         return configSection;
 
+    }
+
+    private ConfigGroupDefinition getConfigGroupDefinition(Allignment allignment, Iterator<Map.Entry<String, JsonNode>> groups) {
+        Map.Entry<String, JsonNode> field = groups.next();
+
+        Sequence prefixSequence = getSequenceForRule(field.getValue(), "prefix");
+        Sequence postfixSequence = getSequenceForRule(field.getValue(), "postfix");
+        Sequence infixSequence = getSequenceForRule(field.getValue(), "infix");
+
+        RuleParams ruleParams = new RuleParams(prefixSequence, postfixSequence, infixSequence);
+
+        return new ConfigGroupDefinition(field.getKey(), allignment, ruleParams);
     }
 
     private Sequence getSequenceForRule(JsonNode groupRules, String rulePart) {
