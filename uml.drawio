@@ -1,6 +1,6 @@
 <mxfile host="app.diagrams.net" agent="Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36" version="25.0.3">
   <diagram name="1 oldal" id="gJgrqShFCkPL8RjyrLo0">
-    <mxGraphModel dx="3111" dy="1240" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+    <mxGraphModel dx="1845" dy="530" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -22,7 +22,7 @@
         <mxCell id="IwMsbEK7kWu3GnN3jvoc-5" value="Sequence" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
           <mxGeometry x="-360" y="215" width="280" height="56" as="geometry" />
         </mxCell>
-        <mxCell id="IwMsbEK7kWu3GnN3jvoc-6" value="- nucleotidBaseChain: List&amp;lt;NucleotidBase&amp;gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="IwMsbEK7kWu3GnN3jvoc-5">
+        <mxCell id="IwMsbEK7kWu3GnN3jvoc-6" value="- nucleotidBaseChain: List&amp;lt;NucleotideBase&amp;gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="IwMsbEK7kWu3GnN3jvoc-5">
           <mxGeometry y="26" width="280" height="22" as="geometry" />
         </mxCell>
         <mxCell id="IwMsbEK7kWu3GnN3jvoc-7" value="" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;" vertex="1" parent="IwMsbEK7kWu3GnN3jvoc-5">
@@ -256,7 +256,7 @@
             <mxPoint x="531" y="707" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="IwMsbEK7kWu3GnN3jvoc-128" value="&lt;div&gt;&amp;lt;&amp;lt;enumeration&amp;gt;&amp;gt;&lt;/div&gt;&lt;span style=&quot;text-align: left;&quot;&gt;NucleotidBase&lt;/span&gt;" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=40;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+        <mxCell id="IwMsbEK7kWu3GnN3jvoc-128" value="&lt;div&gt;&amp;lt;&amp;lt;enumeration&amp;gt;&amp;gt;&lt;/div&gt;&lt;span style=&quot;text-align: left;&quot;&gt;NucleotideBase&lt;/span&gt;" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=40;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
           <mxGeometry y="213" width="190" height="140" as="geometry" />
         </mxCell>
         <mxCell id="IwMsbEK7kWu3GnN3jvoc-129" value="ADENINE, CYTOSINE, GUANINE, THYMINE&amp;nbsp;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="IwMsbEK7kWu3GnN3jvoc-128">
