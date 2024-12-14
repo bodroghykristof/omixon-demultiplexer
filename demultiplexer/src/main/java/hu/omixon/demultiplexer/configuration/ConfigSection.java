@@ -6,12 +6,11 @@ import hu.omixon.demultiplexer.configuration.strategy.FirstHitGroupingStrategy;
 import hu.omixon.demultiplexer.configuration.strategy.GroupingStrategy;
 import hu.omixon.demultiplexer.sequence.SequenceSample;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.List;
 
-@RequiredArgsConstructor @Getter
+@Getter
 public class ConfigSection {
 
     private final Allignment allignment;
