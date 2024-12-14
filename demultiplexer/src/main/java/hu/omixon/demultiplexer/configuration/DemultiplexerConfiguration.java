@@ -4,6 +4,12 @@ import java.util.List;
 
 public record DemultiplexerConfiguration(List<ConfigSection> sections) {
 
+    public DemultiplexerConfiguration {
+        if (sections == null || sections.isEmpty()) {
+            throw new IllegalArgumentException("Configuration sections cannot be empty");
+        }
+    }
+
     public ConfigSection findSectionByAllignment(Allignment allignment) {
 
         if (allignment == null) {

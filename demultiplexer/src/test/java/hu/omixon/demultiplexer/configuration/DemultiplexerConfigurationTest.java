@@ -2,12 +2,24 @@ package hu.omixon.demultiplexer.configuration;
 
 import org.junit.jupiter.api.Test;
 
+import java.util.Collections;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class DemultiplexerConfigurationTest {
 
+    @Test
+    void testConstructor_WithNullSection() {
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> new DemultiplexerConfiguration(null));
+        assertEquals("Configuration sections cannot be empty", exception.getMessage());
+    }
+
+    @Test
+    void testConstructor_WithEmptySections() {
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> new DemultiplexerConfiguration(Collections.emptyList()));
+        assertEquals("Configuration sections cannot be empty", exception.getMessage());
+    }
 
     @Test
     void testFindSectionByAllignment_NullInputThrowsException() {
