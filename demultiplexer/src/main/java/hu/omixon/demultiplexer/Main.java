@@ -11,11 +11,12 @@ public class Main {
         String sequenceSampleFilePath = args[0];
         String configFilePath = args[1];
         String allignmentName = args[2];
+        String outputFilePrefix = args[3];
 
         IOService ioService = new IOService();
         DemultiplexerService demultiplexerService = new DemultiplexerService(ioService);
 
-        demultiplexerService.run(sequenceSampleFilePath, configFilePath, Allignment.findByName(allignmentName));
+        demultiplexerService.run(sequenceSampleFilePath, configFilePath, Allignment.findByName(allignmentName), outputFilePrefix);
 
     }
 
