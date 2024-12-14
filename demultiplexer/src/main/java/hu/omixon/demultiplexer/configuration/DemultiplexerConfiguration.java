@@ -1,24 +1,8 @@
 package hu.omixon.demultiplexer.configuration;
 
-import lombok.Getter;
-
-import java.util.ArrayList;
 import java.util.List;
 
-@Getter
-public class DemultiplexerConfiguration {
-
-    private List<ConfigSection> sections;
-
-    public void addSection(ConfigSection section) {
-
-        if (this.sections == null) {
-            this.sections = new ArrayList<>();
-        }
-
-        this.sections.add(section);
-
-    }
+public record DemultiplexerConfiguration(List<ConfigSection> sections) {
 
     public ConfigSection findSectionByAllignment(Allignment allignment) {
 

@@ -11,9 +11,7 @@ class SequenceTest {
     void testFromBaseChain_WithNull() {
         String baseChain = null;
 
-        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
-            Sequence.fromBaseChain(baseChain);
-        });
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> Sequence.fromBaseChain(baseChain));
 
         assertEquals("Sequence cannot be initialized with empty baseChain", exception.getMessage());
     }
