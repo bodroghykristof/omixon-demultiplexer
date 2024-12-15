@@ -52,7 +52,7 @@ public class IOService {
         return new DemultiplexerConfiguration(sections);
     }
 
-    public ConfigSection readConfigSection(JsonNode config, Allignment allignment) {
+    private ConfigSection readConfigSection(JsonNode config, Allignment allignment) {
 
         ConfigSection configSection = new ConfigSection(allignment);
 
