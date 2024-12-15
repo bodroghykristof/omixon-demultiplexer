@@ -25,5 +25,15 @@ class BestRuleTest {
         assertEquals(0, bestRule.getMatchValue(sequence));
     }
 
+    @Test
+    void testConstructor_WithMatch() {
+        Sequence sequence = Sequence.fromBaseChain("ATCATG");
+        Sequence infix = Sequence.fromBaseChain("ATG");
+
+        BestRule bestRule = new BestRule(infix);
+
+        assertEquals(5, bestRule.getMatchValue(sequence));
+    }
+
 
 }

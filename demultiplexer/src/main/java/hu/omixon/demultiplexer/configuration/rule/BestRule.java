@@ -19,15 +19,36 @@ public record BestRule(Sequence infix) implements ConfigRule {
             throw new IllegalArgumentException("Cannot run rule on null sequence");
         }
 
-        if (sequence.nucleotideBaseChain().size() < this.infix.nucleotideBaseChain().size()) {
+        int sequenceLength = sequence.nucleotideBaseChain().size();
+        int infixLength = this.infix.nucleotideBaseChain().size();
+
+        if (sequenceLength < infixLength) {
             log.warn("Provided sequence is shorter that infix of rule. Match value is implicitly 0.");
             return 0;
         }
 
+        int matchValue = 0;
+
         String infixAsString = this.infix.toBaseChainString();
         String sequenceAsString = sequence.toBaseChainString();
 
-        return 1;
+        for (int i = 0; i <= sequenceLength - infixLength; i++) {
+            String subString = sequenceAsString.substring(i, i + infixLength);
+            matchValue += countCommonCharacters(subString, infixAsString);
+        }
+
+        return matchValue;
+    }
+
+    private int countCommonCharacters(String strOne, String strTwo) {
+        // same length of strOne and strTwo is asserted
+        int count = 0;
+        for (int i = 0; i < strOne.length(); i++) {
+            if (strOne.charAt(i) == strTwo.charAt(i)) {
+                count++;
+            }
+        }
+        return count;
     }
 
 }
