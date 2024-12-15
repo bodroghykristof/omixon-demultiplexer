@@ -3,6 +3,8 @@ package hu.omixon.demultiplexer.configuration.rule;
 import hu.omixon.demultiplexer.sequence.Sequence;
 import lombok.extern.slf4j.Slf4j;
 
+import java.util.stream.IntStream;
+
 @Slf4j
 public record BestRule(Sequence infix) implements ConfigRule {
 
@@ -27,28 +29,19 @@ public record BestRule(Sequence infix) implements ConfigRule {
             return 0;
         }
 
-        int matchValue = 0;
-
         String infixAsString = this.infix.toBaseChainString();
         String sequenceAsString = sequence.toBaseChainString();
 
-        for (int i = 0; i <= sequenceLength - infixLength; i++) {
-            String subString = sequenceAsString.substring(i, i + infixLength);
-            matchValue += countCommonCharacters(subString, infixAsString);
-        }
-
-        return matchValue;
+        return IntStream.rangeClosed(0, sequenceLength - infixLength)
+                        .map(i -> countCommonCharacters(sequenceAsString.substring(i, i + infixLength), infixAsString))
+                        .sum();
     }
 
     private int countCommonCharacters(String strOne, String strTwo) {
         // same length of strOne and strTwo is asserted
-        int count = 0;
-        for (int i = 0; i < strOne.length(); i++) {
-            if (strOne.charAt(i) == strTwo.charAt(i)) {
-                count++;
-            }
-        }
-        return count;
+        return (int) IntStream.range(0, strOne.length())
+                            .filter(i -> strOne.charAt(i) == strTwo.charAt(i))
+                            .count();
     }
 
 }
