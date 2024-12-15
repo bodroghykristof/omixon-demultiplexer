@@ -29,6 +29,17 @@ class EndsRuleTest {
     }
 
     @Test
+    void testGetMatchValue_WithNullSequence() {
+        Sequence prefix = Sequence.fromBaseChain("ATC");
+        Sequence postfix = Sequence.fromBaseChain("GTC");
+        EndsRule endsRule = new EndsRule(prefix, postfix);
+
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> endsRule.getMatchValue(null));
+
+        assertEquals("Cannot run rule on null sequence", exception.getMessage());
+    }
+
+    @Test
     void testGetMatchValue_WithNoMatch() {
         Sequence sequence = Sequence.fromBaseChain("ACTCACGACCACTAACTAGCAATACGATCG");
         Sequence prefix = Sequence.fromBaseChain("ATC");

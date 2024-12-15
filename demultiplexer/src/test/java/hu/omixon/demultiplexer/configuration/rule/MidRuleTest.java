@@ -16,13 +16,23 @@ class MidRuleTest {
     }
 
     @Test
+    void testGetMatchValue_WithNullSequence() {
+        Sequence infix = Sequence.fromBaseChain("GGTCACACTT");
+        MidRule midRule = new MidRule(infix);
+
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> midRule.getMatchValue(null));
+
+        assertEquals("Cannot run rule on null sequence", exception.getMessage());
+    }
+
+    @Test
     void testGetMatchValue_WithNoMatch() {
         Sequence sequence = Sequence.fromBaseChain("ACTCACGACCACTAACTAGCAATACGATCG");
         Sequence infix = Sequence.fromBaseChain("TTT");
 
-        MidRule endsRule = new MidRule(infix);
+        MidRule midRule = new MidRule(infix);
 
-        assertEquals(0, endsRule.getMatchValue(sequence));
+        assertEquals(0, midRule.getMatchValue(sequence));
     }
 
 
@@ -31,9 +41,9 @@ class MidRuleTest {
         Sequence sequence = Sequence.fromBaseChain("ACTG");
         Sequence infix = Sequence.fromBaseChain("GGTCACACTT");
 
-        MidRule endsRule = new MidRule(infix);
+        MidRule midRule = new MidRule(infix);
 
-        assertEquals(0, endsRule.getMatchValue(sequence));
+        assertEquals(0, midRule.getMatchValue(sequence));
     }
 
     @Test
@@ -41,9 +51,9 @@ class MidRuleTest {
         Sequence sequence = Sequence.fromBaseChain("ACTCACGACCACTAACTAGCAATACGATCG");
         Sequence infix = Sequence.fromBaseChain("GACCACT");
 
-        MidRule endsRule = new MidRule(infix);
+        MidRule midRule = new MidRule(infix);
 
-        assertEquals(1, endsRule.getMatchValue(sequence));
+        assertEquals(1, midRule.getMatchValue(sequence));
     }
 
 
