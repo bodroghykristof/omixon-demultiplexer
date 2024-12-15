@@ -1,6 +1,7 @@
 package hu.omixon.demultiplexer.sequence;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 public record Sequence(List<NucleotideBase> nucleotideBaseChain) {
 
@@ -22,6 +23,12 @@ public record Sequence(List<NucleotideBase> nucleotideBaseChain) {
                                                 .toList();
         return new Sequence(baseList);
 
+    }
+
+    public String toBaseChainString() {
+        return this.nucleotideBaseChain.stream()
+                                        .map(NucleotideBase::getShortName)
+                                        .collect(Collectors.joining());
     }
 
 }
