@@ -28,5 +28,60 @@ class EndsRuleTest {
         assertEquals("Both prefix and postfix must be defined", exception.getMessage());
     }
 
+    @Test
+    void testGetMatchValue_WithNoMatch() {
+        Sequence sequence = Sequence.fromBaseChain("ACTCACGACCACTAACTAGCAATACGATCG");
+        Sequence prefix = Sequence.fromBaseChain("ATC");
+        Sequence postfix = Sequence.fromBaseChain("GTC");
+
+        EndsRule endsRule = new EndsRule(prefix, postfix);
+
+        assertEquals(0, endsRule.getMatchValue(sequence));
+    }
+
+    @Test
+    void testGetMatchValue_WithMatchingPrefixOnly() {
+        Sequence sequence = Sequence.fromBaseChain("ACTCACGACCACTAACTAGCAATACGATCG");
+        Sequence prefix = Sequence.fromBaseChain("ACT");
+        Sequence postfix = Sequence.fromBaseChain("GTC");
+
+        EndsRule endsRule = new EndsRule(prefix, postfix);
+
+        assertEquals(0, endsRule.getMatchValue(sequence));
+    }
+
+    @Test
+    void testGetMatchValue_WithMatchingPostfixOnly() {
+        Sequence sequence = Sequence.fromBaseChain("ACTCACGACCACTAACTAGCAATACGATCG");
+        Sequence prefix = Sequence.fromBaseChain("TGC");
+        Sequence postfix = Sequence.fromBaseChain("TCG");
+
+        EndsRule endsRule = new EndsRule(prefix, postfix);
+
+        assertEquals(0, endsRule.getMatchValue(sequence));
+    }
+
+    @Test
+    void testGetMatchValue_WithLongerPatternsThanActualSequence() {
+        Sequence sequence = Sequence.fromBaseChain("ACTG");
+        Sequence prefix = Sequence.fromBaseChain("GGTCACACTT");
+        Sequence postfix = Sequence.fromBaseChain("AGGCTAGAT");
+
+        EndsRule endsRule = new EndsRule(prefix, postfix);
+
+        assertEquals(0, endsRule.getMatchValue(sequence));
+    }
+
+    @Test
+    void testGetMatchValue_WithMatch() {
+        Sequence sequence = Sequence.fromBaseChain("ACTCACGACCACTAACTAGCAATACGATCG");
+        Sequence prefix = Sequence.fromBaseChain("ACT");
+        Sequence postfix = Sequence.fromBaseChain("TCG");
+
+        EndsRule endsRule = new EndsRule(prefix, postfix);
+
+        assertEquals(1, endsRule.getMatchValue(sequence));
+    }
+
 
 }
