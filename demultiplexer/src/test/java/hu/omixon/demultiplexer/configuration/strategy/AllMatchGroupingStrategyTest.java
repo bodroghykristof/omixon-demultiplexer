@@ -35,13 +35,13 @@ class AllMatchGroupingStrategyTest {
 
     @Test
     void testSplitSequenceToGroups_WithNullGroups() {
-        Exception exception = assertThrows(IllegalArgumentException.class, () -> strategy.splitSequenceToGroups(new SequenceSample(Collections.emptyList()), null));
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> strategy.splitSequenceToGroups(SequenceSample.empty(), null));
         assertEquals("Both sample and groupDefinitions must be provided", exception.getMessage());
     }
 
     @Test
     void testSplitSequenceToGroups_WithEmptySequences() {
-        SequenceSample sequenceSample = new SequenceSample(Collections.emptyList());
+        SequenceSample sequenceSample = SequenceSample.empty();
         MidRule midRule = new MidRule(Sequence.fromBaseChain("ATCG"));
         List<ConfigGroupDefinition> groupDefinitions = List.of(new ConfigGroupDefinition("group_1", midRule));
 
@@ -52,7 +52,7 @@ class AllMatchGroupingStrategyTest {
 
     @Test
     void testSplitSequenceToGroups_WithEmptyGroups() {
-        SequenceSample sequenceSample = new SequenceSample(List.of(Sequence.fromBaseChain("ATCG"), Sequence.fromBaseChain("TGG")));
+        SequenceSample sequenceSample = SequenceSample.of(Sequence.fromBaseChain("ATCG"), Sequence.fromBaseChain("TGG"));
 
         DemultiplexerResult result = strategy.splitSequenceToGroups(sequenceSample, Collections.emptyList());
 
@@ -67,7 +67,7 @@ class AllMatchGroupingStrategyTest {
         Sequence sequenceThree = Sequence.fromBaseChain("CCGT");
         Sequence sequenceFour = Sequence.fromBaseChain("GTAA");
 
-        SequenceSample sequenceSample = new SequenceSample(List.of(sequenceOne, sequenceTwo, sequenceThree, sequenceFour));
+        SequenceSample sequenceSample = SequenceSample.of(sequenceOne, sequenceTwo, sequenceThree, sequenceFour);
 
         String groupNameOne = "GroupOne";
         ConfigRule mockConfigRuleOne = mock(ConfigRule.class);
@@ -85,7 +85,7 @@ class AllMatchGroupingStrategyTest {
         when(mockConfigRuleTwo.getMatchValue(sequenceFour)).thenReturn(1);
         ConfigGroupDefinition configGroupDefinitionTwo = new ConfigGroupDefinition(groupNameTwo, mockConfigRuleTwo);
 
-        SequenceSample sample = new SequenceSample(List.of(sequenceOne, sequenceTwo, sequenceThree, sequenceFour));
+        SequenceSample sample = SequenceSample.of(sequenceOne, sequenceTwo, sequenceThree, sequenceFour);
         List<ConfigGroupDefinition> groupDefinitions = List.of(configGroupDefinitionOne, configGroupDefinitionTwo);
 
         DemultiplexerResult result = strategy.splitSequenceToGroups(sample, groupDefinitions);
