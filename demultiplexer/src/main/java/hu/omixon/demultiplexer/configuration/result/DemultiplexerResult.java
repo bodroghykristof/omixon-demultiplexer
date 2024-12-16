@@ -19,9 +19,7 @@ public final class DemultiplexerResult {
             this.groups = new ArrayList<>();
         }
 
-        Optional<DemultiplexerResultGroup> existingGroup = groups.stream()
-                                                                .filter(e -> groupName.equals(e.getGroupName()))
-                                                                .findFirst();
+        Optional<DemultiplexerResultGroup> existingGroup = findGroupByName(groupName);
 
         if (existingGroup.isPresent()) {
             existingGroup.get().addSequence(sequence);
@@ -37,20 +35,19 @@ public final class DemultiplexerResult {
         return this.groups == null ? 0 : this.groups.size();
     }
 
-    public DemultiplexerResultGroup findGroupByName(String groupName) {
+    public Optional<DemultiplexerResultGroup> findGroupByName(String groupName) {
 
         if (groupName == null) {
             throw new IllegalArgumentException("GroupName cannot ba null");
         }
 
         if (this.groups == null) {
-            return null;
+            return Optional.empty();
         }
 
         return this.groups.stream()
                         .filter(e -> groupName.equals(e.getGroupName()))
-                        .findFirst()
-                        .orElse(null);
+                        .findFirst();
 
     }
 

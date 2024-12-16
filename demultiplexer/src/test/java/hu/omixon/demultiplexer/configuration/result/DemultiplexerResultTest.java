@@ -4,6 +4,8 @@ import hu.omixon.demultiplexer.sequence.Sequence;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.Optional;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class DemultiplexerResultTest {
@@ -87,7 +89,7 @@ class DemultiplexerResultTest {
 
     @Test
     void testFindGroupByName_WithEmptyGroups() {
-        assertNull(result.findGroupByName("GroupName"));
+        assertTrue(result.findGroupByName("GroupName").isEmpty());
     }
 
     @Test
@@ -95,7 +97,7 @@ class DemultiplexerResultTest {
         Sequence sequence = Sequence.fromBaseChain("ACGT");
         result.addResult("Group1", sequence);
 
-        assertNull(result.findGroupByName("GroupName"));
+        assertTrue(result.findGroupByName("GroupName").isEmpty());
     }
 
     @Test
@@ -104,9 +106,9 @@ class DemultiplexerResultTest {
         String groupName = "Group1";
         result.addResult(groupName, sequence);
 
-        DemultiplexerResultGroup group = result.findGroupByName(groupName);
-        assertNotNull(group);
-        assertEquals(groupName, group.getGroupName());
+        Optional<DemultiplexerResultGroup> group = result.findGroupByName(groupName);
+        assertTrue(group.isPresent());
+        assertEquals(groupName, group.get().getGroupName());
     }
 
 }
