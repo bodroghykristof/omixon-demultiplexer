@@ -7,6 +7,8 @@ import hu.omixon.demultiplexer.configuration.ConfigGroupDefinition;
 import hu.omixon.demultiplexer.configuration.ConfigSection;
 import hu.omixon.demultiplexer.configuration.DemultiplexerConfiguration;
 import hu.omixon.demultiplexer.configuration.result.DemultiplexerResult;
+import hu.omixon.demultiplexer.configuration.rule.ConfigRule;
+import hu.omixon.demultiplexer.configuration.rule.ConfigRuleFactory;
 import hu.omixon.demultiplexer.configuration.rule.RuleParams;
 import hu.omixon.demultiplexer.sequence.Sequence;
 import hu.omixon.demultiplexer.sequence.SequenceSample;
@@ -80,8 +82,9 @@ public class IOService {
         Sequence infixSequence = getSequenceForRule(field.getValue(), "infix");
 
         RuleParams ruleParams = new RuleParams(prefixSequence, postfixSequence, infixSequence);
+        ConfigRule configRule = ConfigRuleFactory.createConfigRule(ruleParams, allignment);
 
-        return new ConfigGroupDefinition(field.getKey(), allignment, ruleParams);
+        return new ConfigGroupDefinition(field.getKey(), configRule);
     }
 
     private Sequence getSequenceForRule(JsonNode groupRules, String rulePart) {

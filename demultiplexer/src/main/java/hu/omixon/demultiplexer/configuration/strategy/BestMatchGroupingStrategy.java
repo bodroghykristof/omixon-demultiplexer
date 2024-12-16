@@ -4,7 +4,6 @@ import hu.omixon.demultiplexer.configuration.ConfigGroupDefinition;
 import hu.omixon.demultiplexer.configuration.result.DemultiplexerResult;
 import hu.omixon.demultiplexer.sequence.SequenceSample;
 
-import java.util.Collections;
 import java.util.List;
 
 public class BestMatchGroupingStrategy implements GroupingStrategy {
@@ -12,7 +11,7 @@ public class BestMatchGroupingStrategy implements GroupingStrategy {
     @Override
     public DemultiplexerResult splitSequenceToGroups(SequenceSample sample, List<ConfigGroupDefinition> groupDefinitions) {
         // TODO
-        return new DemultiplexerResult(Collections.emptyList());
+        return new DemultiplexerResult();
     }
 
 }
