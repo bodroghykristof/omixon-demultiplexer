@@ -1,16 +1,22 @@
 package hu.omixon.demultiplexer.configuration.result;
 
 import hu.omixon.demultiplexer.sequence.Sequence;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 class DemultiplexerResultTest {
 
+    private DemultiplexerResult result;
+
+    @BeforeEach
+    public void setUp() {
+        result = new DemultiplexerResult();
+    }
+
     @Test
     void testAddResultNewGroup() {
-        DemultiplexerResult result = new DemultiplexerResult();
         Sequence sequence = Sequence.fromBaseChain("ACGT");
 
         result.addResult("Group1", sequence);
@@ -23,7 +29,6 @@ class DemultiplexerResultTest {
 
     @Test
     void testAddResultToExistingGroup() {
-        DemultiplexerResult result = new DemultiplexerResult();
         Sequence sequence1 = Sequence.fromBaseChain("ACGT");
         Sequence sequence2 = Sequence.fromBaseChain("TGCA");
 
@@ -39,7 +44,6 @@ class DemultiplexerResultTest {
 
     @Test
     void testAddResultMultipleGroups() {
-        DemultiplexerResult result = new DemultiplexerResult();
         Sequence sequence1 = Sequence.fromBaseChain("ACGT");
         Sequence sequence2 = Sequence.fromBaseChain("TGCA");
 
@@ -57,7 +61,6 @@ class DemultiplexerResultTest {
 
     @Test
     void testCountGroupsEmpty() {
-        DemultiplexerResult result = new DemultiplexerResult();
 
         int groupCount = result.countGroups();
 
@@ -66,7 +69,6 @@ class DemultiplexerResultTest {
 
     @Test
     void testCountGroups() {
-        DemultiplexerResult result = new DemultiplexerResult();
         Sequence sequence1 = Sequence.fromBaseChain("ACGT");
         Sequence sequence2 = Sequence.fromBaseChain("TGCA");
         result.addResult("Group1", sequence1);
@@ -75,6 +77,36 @@ class DemultiplexerResultTest {
         int groupCount = result.countGroups();
 
         assertEquals(2, groupCount);
+    }
+
+    @Test
+    void testFindGroupByName_WithNullParameter() {
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> result.findGroupByName(null));
+        assertEquals("GroupName cannot ba null", exception.getMessage());
+    }
+
+    @Test
+    void testFindGroupByName_WithEmptyGroups() {
+        assertNull(result.findGroupByName("GroupName"));
+    }
+
+    @Test
+    void testFindGroupByName_WithNoMatch() {
+        Sequence sequence = Sequence.fromBaseChain("ACGT");
+        result.addResult("Group1", sequence);
+
+        assertNull(result.findGroupByName("GroupName"));
+    }
+
+    @Test
+    void testFindGroupByName_WithMatch() {
+        Sequence sequence = Sequence.fromBaseChain("ACGT");
+        String groupName = "Group1";
+        result.addResult(groupName, sequence);
+
+        DemultiplexerResultGroup group = result.findGroupByName(groupName);
+        assertNotNull(group);
+        assertEquals(groupName, group.getGroupName());
     }
 
 }

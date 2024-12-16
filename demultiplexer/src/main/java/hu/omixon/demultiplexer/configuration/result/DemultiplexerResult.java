@@ -37,4 +37,21 @@ public final class DemultiplexerResult {
         return this.groups == null ? 0 : this.groups.size();
     }
 
+    public DemultiplexerResultGroup findGroupByName(String groupName) {
+
+        if (groupName == null) {
+            throw new IllegalArgumentException("GroupName cannot ba null");
+        }
+
+        if (this.groups == null) {
+            return null;
+        }
+
+        return this.groups.stream()
+                        .filter(e -> groupName.equals(e.getGroupName()))
+                        .findFirst()
+                        .orElse(null);
+
+    }
+
 }
