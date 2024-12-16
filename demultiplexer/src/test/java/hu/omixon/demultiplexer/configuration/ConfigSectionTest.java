@@ -2,7 +2,7 @@ package hu.omixon.demultiplexer.configuration;
 
 import hu.omixon.demultiplexer.configuration.result.DemultiplexerResult;
 import hu.omixon.demultiplexer.configuration.strategy.BestMatchGroupingStrategy;
-import hu.omixon.demultiplexer.configuration.strategy.FirstHitGroupingStrategy;
+import hu.omixon.demultiplexer.configuration.strategy.AllMatchGroupingStrategy;
 import hu.omixon.demultiplexer.sequence.SequenceSample;
 import org.junit.jupiter.api.Test;
 
@@ -28,7 +28,7 @@ class ConfigSectionTest {
 
         ConfigSection configSection = new ConfigSection(alignment);
 
-        assertInstanceOf(FirstHitGroupingStrategy.class, configSection.getGroupingStrategy(),
+        assertInstanceOf(AllMatchGroupingStrategy.class, configSection.getGroupingStrategy(),
                 "Expected FirstHitGroupingStrategy for ENDS alignment");
     }
 
@@ -38,7 +38,7 @@ class ConfigSectionTest {
 
         ConfigSection configSection = new ConfigSection(alignment);
 
-        assertInstanceOf(FirstHitGroupingStrategy.class, configSection.getGroupingStrategy(),
+        assertInstanceOf(AllMatchGroupingStrategy.class, configSection.getGroupingStrategy(),
                 "Expected FirstHitGroupingStrategy for MID alignment");
     }
 

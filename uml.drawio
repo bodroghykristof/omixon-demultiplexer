@@ -1,6 +1,6 @@
 <mxfile host="app.diagrams.net" agent="Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36" version="25.0.3">
   <diagram name="1 oldal" id="gJgrqShFCkPL8RjyrLo0">
-    <mxGraphModel dx="2498" dy="748" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+    <mxGraphModel dx="3802" dy="1653" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -175,7 +175,7 @@
             <mxPoint x="1328.0000000000005" y="494.106" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="IwMsbEK7kWu3GnN3jvoc-75" value="FirstHitGroupingStrategy" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+        <mxCell id="IwMsbEK7kWu3GnN3jvoc-75" value="AllMatchGroupingStrategy" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
           <mxGeometry x="220" y="750" width="210" height="34" as="geometry" />
         </mxCell>
         <mxCell id="IwMsbEK7kWu3GnN3jvoc-78" value="" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;" vertex="1" parent="IwMsbEK7kWu3GnN3jvoc-75">
@@ -270,6 +270,36 @@
             <mxPoint x="-80" y="260" as="sourcePoint" />
             <mxPoint x="-350" y="262" as="targetPoint" />
           </mxGeometry>
+        </mxCell>
+        <mxCell id="IwMsbEK7kWu3GnN3jvoc-143" value="ConfigRuleFactory &lt;span style=&quot;font-weight: normal;&quot;&gt;(utility class)&lt;/span&gt;" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="390" y="40" width="400" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="IwMsbEK7kWu3GnN3jvoc-144" value="" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;" vertex="1" parent="IwMsbEK7kWu3GnN3jvoc-143">
+          <mxGeometry y="26" width="400" height="8" as="geometry" />
+        </mxCell>
+        <mxCell id="IwMsbEK7kWu3GnN3jvoc-145" value="&lt;u&gt;+ createConfigRule(ruleParams: RuleParams, allignment: Allignment)&lt;/u&gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="IwMsbEK7kWu3GnN3jvoc-143">
+          <mxGeometry y="34" width="400" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="IwMsbEK7kWu3GnN3jvoc-149" value="" style="endArrow=none;html=1;endSize=12;startArrow=none;startSize=14;startFill=0;edgeStyle=orthogonalEdgeStyle;align=left;verticalAlign=bottom;rounded=0;endFill=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="IwMsbEK7kWu3GnN3jvoc-145" target="IwMsbEK7kWu3GnN3jvoc-152">
+          <mxGeometry x="-1" y="3" relative="1" as="geometry">
+            <mxPoint x="810" y="69.71000000000001" as="sourcePoint" />
+            <mxPoint x="890" y="70" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="IwMsbEK7kWu3GnN3jvoc-150" value="RuleParams" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="835" y="40" width="125" height="112" as="geometry" />
+        </mxCell>
+        <mxCell id="IwMsbEK7kWu3GnN3jvoc-151" value="" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;" vertex="1" parent="IwMsbEK7kWu3GnN3jvoc-150">
+          <mxGeometry y="26" width="125" height="8" as="geometry" />
+        </mxCell>
+        <mxCell id="IwMsbEK7kWu3GnN3jvoc-152" value="- prefix: Sequence" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="IwMsbEK7kWu3GnN3jvoc-150">
+          <mxGeometry y="34" width="125" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="IwMsbEK7kWu3GnN3jvoc-153" value="- postfix: Sequence" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="IwMsbEK7kWu3GnN3jvoc-150">
+          <mxGeometry y="60" width="125" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="IwMsbEK7kWu3GnN3jvoc-154" value="- infix: Sequence" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="IwMsbEK7kWu3GnN3jvoc-150">
+          <mxGeometry y="86" width="125" height="26" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>

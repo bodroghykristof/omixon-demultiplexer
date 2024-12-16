@@ -2,7 +2,7 @@ package hu.omixon.demultiplexer.configuration;
 
 import hu.omixon.demultiplexer.configuration.result.DemultiplexerResult;
 import hu.omixon.demultiplexer.configuration.strategy.BestMatchGroupingStrategy;
-import hu.omixon.demultiplexer.configuration.strategy.FirstHitGroupingStrategy;
+import hu.omixon.demultiplexer.configuration.strategy.AllMatchGroupingStrategy;
 import hu.omixon.demultiplexer.configuration.strategy.GroupingStrategy;
 import hu.omixon.demultiplexer.sequence.SequenceSample;
 import lombok.Getter;
@@ -25,7 +25,7 @@ public class ConfigSection {
     }
 
     private GroupingStrategy initStrategy(Allignment allignment) {
-        return allignment == Allignment.BEST ? new BestMatchGroupingStrategy() : new FirstHitGroupingStrategy();
+        return allignment == Allignment.BEST ? new BestMatchGroupingStrategy() : new AllMatchGroupingStrategy();
     }
 
     public void addGroupDefinition(ConfigGroupDefinition groupDefinition) {

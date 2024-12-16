@@ -7,7 +7,7 @@ import hu.omixon.demultiplexer.sequence.SequenceSample;
 
 import java.util.List;
 
-public class FirstHitGroupingStrategy implements GroupingStrategy {
+public class AllMatchGroupingStrategy implements GroupingStrategy {
 
     @Override
     public DemultiplexerResult splitSequenceToGroups(SequenceSample sample, List<ConfigGroupDefinition> groupDefinitions) {
