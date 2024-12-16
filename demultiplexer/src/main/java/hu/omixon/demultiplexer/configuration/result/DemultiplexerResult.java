@@ -11,7 +11,6 @@ import java.util.stream.Collectors;
 public final class DemultiplexerResult {
 
     private List<DemultiplexerResultGroup> groups;
-    private List<Sequence> unmatchedSequences;
 
     public void addResult(String groupName, Sequence sequence) {
 
@@ -55,24 +54,20 @@ public final class DemultiplexerResult {
 
     }
 
-    public void collectUnmatchedSequences(List<Sequence> sequences) {
+    public List<Sequence> collectUnmatchedSequences(List<Sequence> sequences) {
 
         if (this.groups == null) {
-            return;
+            return sequences;
         }
 
         Set<Sequence> matchedSequences = this.groups.stream()
                                                     .flatMap(e -> e.getSequences().stream())
                                                     .collect(Collectors.toSet());
 
-        this.unmatchedSequences = sequences.stream()
-                                        .filter(e -> !matchedSequences.contains(e))
-                                        .toList();
+        return sequences.stream()
+                        .filter(e -> !matchedSequences.contains(e))
+                        .toList();
 
-    }
-
-    public List<Sequence> getUnmatchedSequences() {
-        return this.unmatchedSequences == null ? Collections.emptyList() : this.unmatchedSequences;
     }
 
 }

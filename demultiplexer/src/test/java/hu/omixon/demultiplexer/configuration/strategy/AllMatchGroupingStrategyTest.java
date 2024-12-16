@@ -67,6 +67,8 @@ class AllMatchGroupingStrategyTest {
         Sequence sequenceThree = Sequence.fromBaseChain("CCGT");
         Sequence sequenceFour = Sequence.fromBaseChain("GTAA");
 
+        SequenceSample sequenceSample = new SequenceSample(List.of(sequenceOne, sequenceTwo, sequenceThree, sequenceFour));
+
         String groupNameOne = "GroupOne";
         ConfigRule mockConfigRuleOne = mock(ConfigRule.class);
         when(mockConfigRuleOne.getMatchValue(sequenceOne)).thenReturn(1);
@@ -100,8 +102,9 @@ class AllMatchGroupingStrategyTest {
         assertEquals(2, groupTwo.get().getSequences().size());
         assertTrue(groupTwo.get().getSequences().containsAll(List.of(sequenceTwo, sequenceFour)));
 
-        assertEquals(1, result.getUnmatchedSequences().size());
-        assertEquals(sequenceThree, result.getUnmatchedSequences().getFirst());
+        List<Sequence> unmatchedSequences = result.collectUnmatchedSequences(sequenceSample.sequences());
+        assertEquals(1, unmatchedSequences.size());
+        assertEquals(sequenceThree, unmatchedSequences.getFirst());
 
     }
 

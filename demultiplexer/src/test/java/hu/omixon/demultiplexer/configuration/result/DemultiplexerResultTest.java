@@ -115,8 +115,10 @@ class DemultiplexerResultTest {
 
     @Test
     void testCollectUnmatchedSequences_WithNoGroups() {
-        result.collectUnmatchedSequences(List.of(Sequence.fromBaseChain("ACGT")));
-        assertTrue(result.getUnmatchedSequences().isEmpty());
+        Sequence sequence = Sequence.fromBaseChain("ACGT");
+        List<Sequence> unmatchedSequences = result.collectUnmatchedSequences(List.of(sequence));
+        assertEquals(1, unmatchedSequences.size());
+        assertEquals(sequence, unmatchedSequences.getFirst());
     }
 
     @Test
@@ -125,9 +127,9 @@ class DemultiplexerResultTest {
         String groupName = "Group1";
         result.addResult(groupName, sequence);
 
-        result.collectUnmatchedSequences(Collections.emptyList());
+        List<Sequence> unmatchedSequences = result.collectUnmatchedSequences(Collections.emptyList());
 
-        assertEquals(0, result.getUnmatchedSequences().size());
+        assertEquals(0, unmatchedSequences.size());
     }
 
     @Test
@@ -137,17 +139,15 @@ class DemultiplexerResultTest {
 
         Sequence sequenceOne = Sequence.fromBaseChain("ACGT");
         Sequence sequenceTwo = Sequence.fromBaseChain("TTGC");
-        Sequence sequenceThree = Sequence.fromBaseChain("AAAT");
 
         result.addResult(groupNameOne, sequenceOne);
 
         result.addResult(groupNameTwo, sequenceOne);
         result.addResult(groupNameTwo, sequenceTwo);
 
+        List<Sequence> unmatchedSequences = result.collectUnmatchedSequences(List.of(sequenceOne, sequenceTwo));
 
-        result.collectUnmatchedSequences(List.of(sequenceOne, sequenceTwo));
-
-        assertEquals(0, result.getUnmatchedSequences().size());
+        assertEquals(0, unmatchedSequences.size());
     }
 
     @Test
@@ -165,11 +165,11 @@ class DemultiplexerResultTest {
         result.addResult(groupNameTwo, sequenceOne);
         result.addResult(groupNameTwo, sequenceTwo);
 
+        List<Sequence> unmatchedSequences = result.collectUnmatchedSequences
+                (List.of(sequenceOne, sequenceTwo, sequenceThree, sequenceFour));
 
-        result.collectUnmatchedSequences(List.of(sequenceOne, sequenceTwo, sequenceThree, sequenceFour));
-
-        assertEquals(2, result.getUnmatchedSequences().size());
-        assertTrue(result.getUnmatchedSequences().containsAll(List.of(sequenceThree, sequenceFour)));
+        assertEquals(2, unmatchedSequences.size());
+        assertTrue(unmatchedSequences.containsAll(List.of(sequenceThree, sequenceFour)));
     }
 
 }

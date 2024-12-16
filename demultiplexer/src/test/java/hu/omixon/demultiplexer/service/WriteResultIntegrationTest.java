@@ -2,6 +2,7 @@ package hu.omixon.demultiplexer.service;
 
 import hu.omixon.demultiplexer.configuration.result.DemultiplexerResult;
 import hu.omixon.demultiplexer.sequence.Sequence;
+import hu.omixon.demultiplexer.sequence.SequenceSample;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
@@ -43,6 +44,8 @@ class WriteResultIntegrationTest {
         String groupNameOne = "group1";
         String groupNameTwo = "group2";
 
+        SequenceSample sequenceSample = new SequenceSample(List.of(sequenceOne, sequenceTwo, sequenceThree, sequenceFour));
+
         result.addResult(groupNameOne, sequenceOne);
         result.addResult(groupNameOne, sequenceTwo);
 
@@ -54,7 +57,7 @@ class WriteResultIntegrationTest {
         ArgumentCaptor<String> fileNameCaptor = ArgumentCaptor.forClass(String.class);
         ArgumentCaptor<String> contentCaptor = ArgumentCaptor.forClass(String.class);
 
-        dataConversionService.writeResultToFile(result, outputPrefix);
+        dataConversionService.writeResultToFile(result, outputPrefix, sequenceSample);
 
         verify(ioService, times(2)).writeFile(fileNameCaptor.capture(), contentCaptor.capture());
 
@@ -79,6 +82,8 @@ class WriteResultIntegrationTest {
         String groupNameOne = "group1";
         String groupNameTwo = "group2";
 
+        SequenceSample sequenceSample = new SequenceSample(List.of(sequenceOne, sequenceTwo, sequenceThree, sequenceFour));
+
         result.addResult(groupNameOne, sequenceOne);
         result.addResult(groupNameOne, sequenceTwo);
 
@@ -86,12 +91,10 @@ class WriteResultIntegrationTest {
         result.addResult(groupNameTwo, sequenceTwo);
         result.addResult(groupNameTwo, sequenceThree);
 
-        result.collectUnmatchedSequences(List.of(sequenceOne, sequenceTwo, sequenceThree, sequenceFour));
-
         ArgumentCaptor<String> fileNameCaptor = ArgumentCaptor.forClass(String.class);
         ArgumentCaptor<String> contentCaptor = ArgumentCaptor.forClass(String.class);
 
-        dataConversionService.writeResultToFile(result, outputPrefix);
+        dataConversionService.writeResultToFile(result, outputPrefix, sequenceSample);
 
         verify(ioService, times(3)).writeFile(fileNameCaptor.capture(), contentCaptor.capture());
 

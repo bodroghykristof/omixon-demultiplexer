@@ -74,6 +74,8 @@ class BestMatchGroupingStrategyTest {
     @Test
     void testSplitSequenceToGroups_WithNoUnmatchedSequences() {
 
+        SequenceSample sequenceSample = new SequenceSample(List.of(sequenceOne, sequenceTwo));
+
         String groupNameOne = "GroupOne";
         ConfigRule mockConfigRuleOne = mock(ConfigRule.class);
         when(mockConfigRuleOne.getMatchValue(sequenceOne)).thenReturn(5);
@@ -103,12 +105,14 @@ class BestMatchGroupingStrategyTest {
         assertEquals(1, groupTwo.get().getSequences().size());
         assertTrue(groupTwo.get().getSequences().getFirst().equals(sequenceTwo));
 
-        assertEquals(0, result.getUnmatchedSequences().size());
+        assertEquals(0, result.collectUnmatchedSequences(sequenceSample.sequences()).size());
 
     }
 
     @Test
     void testSplitSequenceToGroups_WithUnmatchedSequences() {
+
+        SequenceSample sequenceSample = new SequenceSample(List.of(sequenceOne, sequenceTwo, sequenceThree, sequenceFour));
 
         String groupNameOne = "GroupOne";
         ConfigRule mockConfigRuleOne = mock(ConfigRule.class);
@@ -143,13 +147,16 @@ class BestMatchGroupingStrategyTest {
         assertEquals(1, groupTwo.get().getSequences().size());
         assertTrue(groupTwo.get().getSequences().getFirst().equals(sequenceTwo));
 
-        assertEquals(2, result.getUnmatchedSequences().size());
-        assertTrue(result.getUnmatchedSequences().containsAll(List.of(sequenceThree, sequenceFour)));
+        List<Sequence> unmatchedSequences = result.collectUnmatchedSequences(sequenceSample.sequences());
+        assertEquals(2, unmatchedSequences.size());
+        assertTrue(unmatchedSequences.containsAll(List.of(sequenceThree, sequenceFour)));
 
     }
 
     @Test
     void testSplitSequenceToGroups_WithUnmatchedGroup() {
+
+        SequenceSample sequenceSample = new SequenceSample(List.of(sequenceOne, sequenceTwo, sequenceThree, sequenceFour));
 
         String groupNameOne = "GroupOne";
         ConfigRule mockConfigRuleOne = mock(ConfigRule.class);
@@ -182,10 +189,10 @@ class BestMatchGroupingStrategyTest {
         Optional<DemultiplexerResultGroup> groupTwo = result.findGroupByName(groupNameTwo);
         assertTrue(groupTwo.isEmpty());
 
-        assertEquals(3, result.getUnmatchedSequences().size());
-        assertTrue(result.getUnmatchedSequences().containsAll(List.of(sequenceTwo, sequenceThree, sequenceFour)));
+        List<Sequence> unmatchedSequences = result.collectUnmatchedSequences(sequenceSample.sequences());
+        assertEquals(3, unmatchedSequences.size());
+        assertTrue(unmatchedSequences.containsAll(List.of(sequenceTwo, sequenceThree, sequenceFour)));
 
     }
-
 
 }

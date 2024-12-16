@@ -5,7 +5,6 @@ import hu.omixon.demultiplexer.configuration.result.DemultiplexerResult;
 import hu.omixon.demultiplexer.sequence.Sequence;
 import hu.omixon.demultiplexer.sequence.SequenceSample;
 
-import java.util.Comparator;
 import java.util.List;
 
 public class BestMatchGroupingStrategy implements GroupingStrategy {
@@ -36,7 +35,6 @@ public class BestMatchGroupingStrategy implements GroupingStrategy {
             result.addResult(group.groupName(), bestMatch);
         }
 
-        result.collectUnmatchedSequences(sample.sequences());
         return result;
 
     }

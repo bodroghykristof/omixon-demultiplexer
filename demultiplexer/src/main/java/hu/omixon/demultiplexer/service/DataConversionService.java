@@ -88,9 +88,9 @@ public class DataConversionService {
         return null;
     }
 
-    public void writeResultToFile(DemultiplexerResult result, String outputFilePrefix) throws IOException {
+    public void writeResultToFile(DemultiplexerResult result, String outputFilePrefix, SequenceSample sequenceSample) throws IOException {
         writeGroups(result, outputFilePrefix);
-        writeUnmatchedSequences(result, outputFilePrefix);
+        writeUnmatchedSequences(result, outputFilePrefix, sequenceSample);
     }
 
     private void writeGroups(DemultiplexerResult result, String outputFilePrefix) throws IOException {
@@ -108,12 +108,13 @@ public class DataConversionService {
         }
     }
 
-    private void writeUnmatchedSequences(DemultiplexerResult result, String outputFilePrefix) throws IOException {
+    private void writeUnmatchedSequences(DemultiplexerResult result, String outputFilePrefix, SequenceSample sequenceSample) throws IOException {
 
-        if (!result.getUnmatchedSequences().isEmpty()) {
+        List<Sequence> unmatchedSequences = result.collectUnmatchedSequences(sequenceSample.sequences());
+        if (!unmatchedSequences.isEmpty()) {
 
             String filename = outputFilePrefix + "unmatched.seq";
-            String content = joinSequencesForOutput(result.getUnmatchedSequences());
+            String content = joinSequencesForOutput(unmatchedSequences);
 
             ioService.writeFile(filename, content);
 

@@ -21,7 +21,7 @@ public class DemultiplexerService {
             DemultiplexerConfiguration configuration = dataConversionService.readConfiguration(configFilePath);
             ConfigSection configSection = configuration.findSectionByAllignment(allignment);
             DemultiplexerResult result = configSection.splitSequenceToGroups(sequenceSample);
-            dataConversionService.writeResultToFile(result, outputFilePrefix);
+            dataConversionService.writeResultToFile(result, outputFilePrefix, sequenceSample);
         } catch (Exception e) {
             log.error("An error occurred while performing operation.", e);
         }
