@@ -6,6 +6,7 @@ import hu.omixon.demultiplexer.configuration.ConfigGroupDefinition;
 import hu.omixon.demultiplexer.configuration.ConfigSection;
 import hu.omixon.demultiplexer.configuration.DemultiplexerConfiguration;
 import hu.omixon.demultiplexer.configuration.result.DemultiplexerResult;
+import hu.omixon.demultiplexer.configuration.result.DemultiplexerResultGroup;
 import hu.omixon.demultiplexer.configuration.rule.ConfigRule;
 import hu.omixon.demultiplexer.configuration.rule.ConfigRuleFactory;
 import hu.omixon.demultiplexer.configuration.rule.RuleParams;
@@ -16,6 +17,7 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Slf4j @AllArgsConstructor
 public class DataConversionService {
@@ -86,8 +88,42 @@ public class DataConversionService {
         return null;
     }
 
-    public void writeResultToFile(DemultiplexerResult result, String outputFilePrefix) {
-        // TODO
+    public void writeResultToFile(DemultiplexerResult result, String outputFilePrefix) throws IOException {
+        writeGroups(result, outputFilePrefix);
+        writeUnmatchedSequences(result, outputFilePrefix);
+    }
+
+    private void writeUnmatchedSequences(DemultiplexerResult result, String outputFilePrefix) throws IOException {
+
+        if (!result.getUnmatchedSequences().isEmpty()) {
+
+            String filename = outputFilePrefix + "unmatched.seq";
+            String content = joinSequencesForOutput(result.getUnmatchedSequences());
+
+            ioService.writeFile(filename, content);
+
+        }
+    }
+
+    private void writeGroups(DemultiplexerResult result, String outputFilePrefix) throws IOException {
+
+        for (DemultiplexerResultGroup resultGroup : result.getGroups()) {
+
+            if (!resultGroup.getSequences().isEmpty()) {
+
+                String filename = outputFilePrefix + resultGroup.getGroupName() + ".seq";
+                String content = joinSequencesForOutput(resultGroup.getSequences());
+
+                ioService.writeFile(filename, content);
+
+            }
+        }
+    }
+
+    private String joinSequencesForOutput(List<Sequence> sequences) {
+        return sequences.stream()
+                        .map(Sequence::toBaseChainString)
+                        .collect(Collectors.joining(" "));
     }
 
 }
