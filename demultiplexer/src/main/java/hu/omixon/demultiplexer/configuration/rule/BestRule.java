@@ -34,7 +34,8 @@ public record BestRule(Sequence infix) implements ConfigRule {
 
         return IntStream.rangeClosed(0, sequenceLength - infixLength)
                         .map(i -> countCommonCharacters(sequenceAsString.substring(i, i + infixLength), infixAsString))
-                        .sum();
+                        .max()
+                        .orElse(0);
     }
 
     private int countCommonCharacters(String strOne, String strTwo) {

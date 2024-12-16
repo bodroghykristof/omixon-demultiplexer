@@ -54,9 +54,9 @@ class BestRuleTest {
 
     private static Stream<Arguments> getArgsForPositiveMatches() {
         return Stream.of(
-                Arguments.of("ATCATG", "ATG", 5),
-                Arguments.of("ATTTTA", "TT", 8),
-                Arguments.of("AGCGTA", "G", 2),
+                Arguments.of("ATCATG", "ATG", 3),
+                Arguments.of("ATTTTA", "TT", 2),
+                Arguments.of("AGCGTA", "G", 1),
                 Arguments.of("AGCGTA", "AGCGT", 5),
                 Arguments.of("AGCGTA", "GCGTA", 5),
                 Arguments.of("AGCGTA", "GCGT", 4),
