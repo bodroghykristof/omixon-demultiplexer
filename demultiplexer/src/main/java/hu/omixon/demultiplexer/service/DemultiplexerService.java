@@ -14,7 +14,7 @@ public class DemultiplexerService {
     private final DataConversionService dataConversionService;
 
     public void run(String sequenceSampleFilePath, String configFilePath,
-                    Allignment allignment, String outputFilePrefix) {
+                    String outputFilePrefix, Allignment allignment) {
 
         try {
             SequenceSample sequenceSample = dataConversionService.readSequences(sequenceSampleFilePath);

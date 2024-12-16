@@ -41,7 +41,7 @@ public class DemultiplexerIntegrationTest {
         for (Allignment allignment : Allignment.values()) {
             String testCaseDirectory = exampleName + "/" + allignment.name().toLowerCase();
             String outputPrefix = testCaseDirectory + "/out_";
-            demultiplexerService.run(sequenceFile, config, allignment, outputPrefix);
+            demultiplexerService.run(sequenceFile, config, outputPrefix, allignment);
             compareSequences(testCaseDirectory);
         }
 
