@@ -8,23 +8,21 @@ import hu.omixon.demultiplexer.sequence.SequenceSample;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+import java.io.IOException;
+
 @AllArgsConstructor @Slf4j
 public class DemultiplexerService {
 
     private final DataConversionService dataConversionService;
 
     public void run(String sequenceSampleFilePath, String configFilePath,
-                    String outputFilePrefix, Allignment allignment) {
+                    String outputFilePrefix, Allignment allignment) throws IOException {
 
-        try {
             SequenceSample sequenceSample = dataConversionService.readSequences(sequenceSampleFilePath);
             DemultiplexerConfiguration configuration = dataConversionService.readConfiguration(configFilePath);
             ConfigSection configSection = configuration.findSectionByAllignment(allignment);
             DemultiplexerResult result = configSection.splitSequenceToGroups(sequenceSample);
             dataConversionService.writeResultToFile(result, outputFilePrefix, sequenceSample);
-        } catch (Exception e) {
-            log.error("An error occurred while performing operation.", e);
-        }
 
     }
 
