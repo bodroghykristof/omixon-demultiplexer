@@ -52,7 +52,7 @@ class ConfigSectionTest {
         DemultiplexerResult resultOne = configSection.splitSequenceToGroups(mockSample);
         DemultiplexerResult resultTwo = configSection.getGroupingStrategy().splitSequenceToGroups(mockSample, configSection.getGroupDefinitions());
 
-        assertEquals(resultOne.groups().size(), resultTwo.groups().size());
+        assertEquals(resultOne.countGroups(), resultTwo.countGroups());
     }
 
 }
