@@ -27,6 +27,7 @@ public class AllMatchGroupingStrategy implements GroupingStrategy {
             }
         }
 
+        result.collectUnmatchedSequences(sample.sequences());
         return result;
     }
 

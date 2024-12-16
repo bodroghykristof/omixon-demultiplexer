@@ -4,6 +4,8 @@ import hu.omixon.demultiplexer.sequence.Sequence;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -109,6 +111,65 @@ class DemultiplexerResultTest {
         Optional<DemultiplexerResultGroup> group = result.findGroupByName(groupName);
         assertTrue(group.isPresent());
         assertEquals(groupName, group.get().getGroupName());
+    }
+
+    @Test
+    void testCollectUnmatchedSequences_WithNoGroups() {
+        result.collectUnmatchedSequences(List.of(Sequence.fromBaseChain("ACGT")));
+        assertNull(result.getUnmatchedSequences());
+    }
+
+    @Test
+    void testCollectUnmatchedSequences_WithEmptyList() {
+        Sequence sequence = Sequence.fromBaseChain("ACGT");
+        String groupName = "Group1";
+        result.addResult(groupName, sequence);
+
+        result.collectUnmatchedSequences(Collections.emptyList());
+
+        assertEquals(0, result.getUnmatchedSequences().size());
+    }
+
+    @Test
+    void testCollectUnmatchedSequences_WithNoUnmatchedValues() {
+        String groupNameOne = "Group1";
+        String groupNameTwo = "Group2";
+
+        Sequence sequenceOne = Sequence.fromBaseChain("ACGT");
+        Sequence sequenceTwo = Sequence.fromBaseChain("TTGC");
+        Sequence sequenceThree = Sequence.fromBaseChain("AAAT");
+
+        result.addResult(groupNameOne, sequenceOne);
+
+        result.addResult(groupNameTwo, sequenceOne);
+        result.addResult(groupNameTwo, sequenceTwo);
+
+
+        result.collectUnmatchedSequences(List.of(sequenceOne, sequenceTwo));
+
+        assertEquals(0, result.getUnmatchedSequences().size());
+    }
+
+    @Test
+    void testCollectUnmatchedSequences_WithUnmatchedValues() {
+        String groupNameOne = "Group1";
+        String groupNameTwo = "Group2";
+
+        Sequence sequenceOne = Sequence.fromBaseChain("ACGT");
+        Sequence sequenceTwo = Sequence.fromBaseChain("TTGC");
+        Sequence sequenceThree = Sequence.fromBaseChain("AAAT");
+        Sequence sequenceFour = Sequence.fromBaseChain("CTCA");
+
+        result.addResult(groupNameOne, sequenceOne);
+
+        result.addResult(groupNameTwo, sequenceOne);
+        result.addResult(groupNameTwo, sequenceTwo);
+
+
+        result.collectUnmatchedSequences(List.of(sequenceOne, sequenceTwo, sequenceThree, sequenceFour));
+
+        assertEquals(2, result.getUnmatchedSequences().size());
+        assertTrue(result.getUnmatchedSequences().containsAll(List.of(sequenceThree, sequenceFour)));
     }
 
 }

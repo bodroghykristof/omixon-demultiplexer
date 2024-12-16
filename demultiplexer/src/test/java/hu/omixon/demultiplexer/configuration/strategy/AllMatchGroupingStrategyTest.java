@@ -92,7 +92,6 @@ class AllMatchGroupingStrategyTest {
 
         Optional<DemultiplexerResultGroup> groupOne = result.findGroupByName(groupNameOne);
         assertTrue(groupOne.isPresent());
-        System.out.println(result);
         assertEquals(2, groupOne.get().getSequences().size());
         assertTrue(groupOne.get().getSequences().containsAll(List.of(sequenceOne, sequenceFour)));
 
@@ -100,6 +99,9 @@ class AllMatchGroupingStrategyTest {
         assertTrue(groupTwo.isPresent());
         assertEquals(2, groupTwo.get().getSequences().size());
         assertTrue(groupTwo.get().getSequences().containsAll(List.of(sequenceTwo, sequenceFour)));
+
+        assertEquals(1, result.getUnmatchedSequences().size());
+        assertEquals(sequenceThree, result.getUnmatchedSequences().getFirst());
 
     }
 

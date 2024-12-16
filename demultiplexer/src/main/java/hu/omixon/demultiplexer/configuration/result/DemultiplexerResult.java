@@ -7,11 +7,14 @@ import lombok.ToString;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Getter @ToString
 public final class DemultiplexerResult {
 
     private List<DemultiplexerResultGroup> groups;
+    private List<Sequence> unmatchedSequences;
 
     public void addResult(String groupName, Sequence sequence) {
 
@@ -48,6 +51,22 @@ public final class DemultiplexerResult {
         return this.groups.stream()
                         .filter(e -> groupName.equals(e.getGroupName()))
                         .findFirst();
+
+    }
+
+    public void collectUnmatchedSequences(List<Sequence> sequences) {
+
+        if (this.groups == null) {
+            return;
+        }
+
+        Set<Sequence> matchedSequences = this.groups.stream()
+                                                    .flatMap(e -> e.getSequences().stream())
+                                                    .collect(Collectors.toSet());
+
+        this.unmatchedSequences = sequences.stream()
+                                        .filter(e -> !matchedSequences.contains(e))
+                                        .toList();
 
     }
 
