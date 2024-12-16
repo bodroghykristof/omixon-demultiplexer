@@ -1,7 +1,6 @@
 package hu.omixon.demultiplexer.service;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import hu.omixon.demultiplexer.configuration.Allignment;
 import hu.omixon.demultiplexer.configuration.ConfigGroupDefinition;
 import hu.omixon.demultiplexer.configuration.ConfigSection;
@@ -15,7 +14,6 @@ import hu.omixon.demultiplexer.sequence.SequenceSample;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.*;
 
@@ -37,8 +35,7 @@ public class DataConversionService {
 
     public DemultiplexerConfiguration readConfiguration(String configFilePath) throws IOException {
 
-        ObjectMapper objectMapper = new ObjectMapper();
-        JsonNode configJson = objectMapper.readTree(new File(configFilePath));
+        JsonNode configJson = ioService.readJsonFromFile(configFilePath);
 
         List<ConfigSection> sections = Arrays.stream(Allignment.values())
                                             .map(e -> readConfigSection(configJson, e))
