@@ -37,5 +37,4 @@ public final class DemultiplexerResult {
         return this.groups == null ? 0 : this.groups.size();
     }
 
-
 }

@@ -12,6 +12,10 @@ public class AllMatchGroupingStrategy implements GroupingStrategy {
     @Override
     public DemultiplexerResult splitSequenceToGroups(SequenceSample sample, List<ConfigGroupDefinition> groupDefinitions) {
 
+        if (sample == null || groupDefinitions == null) {
+            throw new IllegalArgumentException("Both sample and groupDefinitions must be provided");
+        }
+
         DemultiplexerResult result = new DemultiplexerResult();
 
         for (Sequence sequence : sample.sequences()) {
