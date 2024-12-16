@@ -31,6 +31,12 @@ public class IOService {
 
     public void writeFile(String filename, String content) throws IOException {
         Path filePath = Path.of(filename);
+
+        // Ensure parent directories exist
+        if (filePath.getParent() != null) { // Check if there's a parent directory
+            Files.createDirectories(filePath.getParent());
+        }
+
         // Create the file if it doesn't exist
         if (!Files.exists(filePath)) {
             Files.createFile(filePath);
