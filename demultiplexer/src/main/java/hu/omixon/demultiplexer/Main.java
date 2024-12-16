@@ -2,6 +2,7 @@ package hu.omixon.demultiplexer;
 
 import hu.omixon.demultiplexer.configuration.Allignment;
 import hu.omixon.demultiplexer.service.DemultiplexerService;
+import hu.omixon.demultiplexer.service.DataConversionService;
 import hu.omixon.demultiplexer.service.IOService;
 
 public class Main {
@@ -14,7 +15,8 @@ public class Main {
         String outputFilePrefix = args[3];
 
         IOService ioService = new IOService();
-        DemultiplexerService demultiplexerService = new DemultiplexerService(ioService);
+        DataConversionService dataConversionService = new DataConversionService(ioService);
+        DemultiplexerService demultiplexerService = new DemultiplexerService(dataConversionService);
 
         demultiplexerService.run(sequenceSampleFilePath, configFilePath, Allignment.findByName(allignmentName), outputFilePrefix);
 

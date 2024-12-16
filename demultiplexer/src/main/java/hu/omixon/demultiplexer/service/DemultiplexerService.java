@@ -11,17 +11,17 @@ import lombok.extern.slf4j.Slf4j;
 @AllArgsConstructor @Slf4j
 public class DemultiplexerService {
 
-    private final IOService ioService;
+    private final DataConversionService dataConversionService;
 
     public void run(String sequenceSampleFilePath, String configFilePath,
                     Allignment allignment, String outputFilePrefix) {
 
         try {
-            SequenceSample sequenceSample = ioService.readSequences(sequenceSampleFilePath);
-            DemultiplexerConfiguration configuration = ioService.readConfiguration(configFilePath);
+            SequenceSample sequenceSample = dataConversionService.readSequences(sequenceSampleFilePath);
+            DemultiplexerConfiguration configuration = dataConversionService.readConfiguration(configFilePath);
             ConfigSection configSection = configuration.findSectionByAllignment(allignment);
             DemultiplexerResult result = configSection.splitSequenceToGroups(sequenceSample);
-            ioService.writeResultToFile(result, outputFilePrefix);
+            dataConversionService.writeResultToFile(result, outputFilePrefix);
         } catch (Exception e) {
             log.error("An error occurred while performing operation.", e);
         }

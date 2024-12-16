@@ -10,9 +10,9 @@ import java.io.IOException;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-class IOServiceReadSequenceTest {
+class ReadSequenceIntegrationTest {
 
-    private final IOService ioService = new IOService();
+    private final DataConversionService dataConversionService = new DataConversionService(new IOService());
 
     private static final String RESOURCE_DIR = "read_sequence/";
 
@@ -20,14 +20,14 @@ class IOServiceReadSequenceTest {
     void testReadSequences_NotExistingFile() {
         String absolutePath = ResourceUtil.getAsAbsolutePath(RESOURCE_DIR + "no_such_file.seq");
 
-        assertThrows(FileNotFoundException.class, () -> ioService.readSequences(absolutePath));
+        assertThrows(FileNotFoundException.class, () -> dataConversionService.readSequences(absolutePath));
     }
 
     @Test
     void testReadSequences_EmptyFile() {
         String absolutePath = ResourceUtil.getAsAbsolutePath(RESOURCE_DIR + "empty.seq");
 
-        Exception exception = assertThrows(IllegalArgumentException.class, () -> ioService.readSequences(absolutePath));
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> dataConversionService.readSequences(absolutePath));
         assertEquals("Input file " + absolutePath + " does not contain any valid sequences", exception.getMessage());
 
     }
@@ -37,7 +37,7 @@ class IOServiceReadSequenceTest {
 
         String absolutePath = ResourceUtil.getAsAbsolutePath(RESOURCE_DIR + "normal_sequence.seq");
 
-        SequenceSample result = ioService.readSequences(absolutePath);
+        SequenceSample result = dataConversionService.readSequences(absolutePath);
 
         assertEquals(4, result.sequences().size());
         assertEquals(30, result.sequences().getFirst().nucleotideBaseChain().size());
@@ -49,7 +49,7 @@ class IOServiceReadSequenceTest {
 
         String absolutePath = ResourceUtil.getAsAbsolutePath(RESOURCE_DIR + "sequence_emptylines.seq");
 
-        SequenceSample result = ioService.readSequences(absolutePath);
+        SequenceSample result = dataConversionService.readSequences(absolutePath);
 
         assertEquals(4, result.sequences().size());
         assertEquals(30, result.sequences().getFirst().nucleotideBaseChain().size());
@@ -60,7 +60,7 @@ class IOServiceReadSequenceTest {
     void testReadSequences_InvalidFile() {
         String absolutePath = ResourceUtil.getAsAbsolutePath(RESOURCE_DIR + "invalid_sequence.seq");
 
-        assertThrows(IllegalArgumentException.class, () -> ioService.readSequences(absolutePath));
+        assertThrows(IllegalArgumentException.class, () -> dataConversionService.readSequences(absolutePath));
     }
 
 }

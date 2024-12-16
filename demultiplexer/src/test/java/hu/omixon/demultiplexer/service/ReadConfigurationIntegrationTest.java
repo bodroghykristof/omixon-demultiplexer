@@ -15,9 +15,9 @@ import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class IOServiceReadConfigurationTest {
+class ReadConfigurationIntegrationTest {
 
-    private final IOService ioService = new IOService();
+    private final DataConversionService dataConversionService = new DataConversionService(new IOService());
 
     private static final String RESOURCE_DIR = "read_configuration/";
 
@@ -25,21 +25,21 @@ class IOServiceReadConfigurationTest {
     void testReadConfiguration_NotExistingFile() {
         String absolutePath = ResourceUtil.getAsAbsolutePath(RESOURCE_DIR + "/no_such_file.conf");
 
-        assertThrows(FileNotFoundException.class, () -> ioService.readConfiguration(absolutePath));
+        assertThrows(FileNotFoundException.class, () -> dataConversionService.readConfiguration(absolutePath));
     }
 
     @Test
     void testReadConfiguration_NotJsonFile() {
         String absolutePath = ResourceUtil.getAsAbsolutePath(RESOURCE_DIR + "not_json.conf");
 
-        assertThrows(JsonParseException.class, () -> ioService.readConfiguration(absolutePath));
+        assertThrows(JsonParseException.class, () -> dataConversionService.readConfiguration(absolutePath));
     }
 
     @Test
     void testReadConfiguration_InvalidSequenceInConfig() {
         String absolutePath = ResourceUtil.getAsAbsolutePath(RESOURCE_DIR + "invalid_sequence_in_config.conf");
 
-        assertThrows(IllegalArgumentException.class, () -> ioService.readConfiguration(absolutePath));
+        assertThrows(IllegalArgumentException.class, () -> dataConversionService.readConfiguration(absolutePath));
     }
 
     @ParameterizedTest
@@ -47,7 +47,7 @@ class IOServiceReadConfigurationTest {
     void testReadConfiguration_InvalidFiles(String fileName) {
         String absolutePath = ResourceUtil.getAsAbsolutePath(RESOURCE_DIR + fileName);
 
-        Exception exception = assertThrows(IllegalArgumentException.class, () -> ioService.readConfiguration(absolutePath));
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> dataConversionService.readConfiguration(absolutePath));
         assertEquals("Configuration sections cannot be empty", exception.getMessage());
     }
 
@@ -56,7 +56,7 @@ class IOServiceReadConfigurationTest {
     void testReadConfiguration_SuccessfulCases(String fileName) throws IOException {
         String absolutePath = ResourceUtil.getAsAbsolutePath(RESOURCE_DIR + fileName);
 
-        DemultiplexerConfiguration configuration = ioService.readConfiguration(absolutePath);
+        DemultiplexerConfiguration configuration = dataConversionService.readConfiguration(absolutePath);
 
         ConfigSection endsSection = configuration.findSectionByAllignment(Allignment.ENDS);
         ConfigSection midSection = configuration.findSectionByAllignment(Allignment.MID);
@@ -76,7 +76,7 @@ class IOServiceReadConfigurationTest {
     void testReadConfiguration_WithPartialConfig() throws IOException {
         String absolutePath = ResourceUtil.getAsAbsolutePath(RESOURCE_DIR + "incomplete_config.conf");
 
-        DemultiplexerConfiguration configuration = ioService.readConfiguration(absolutePath);
+        DemultiplexerConfiguration configuration = dataConversionService.readConfiguration(absolutePath);
 
         ConfigSection endsSection = configuration.findSectionByAllignment(Allignment.ENDS);
         ConfigSection bestSection = configuration.findSectionByAllignment(Allignment.BEST);
