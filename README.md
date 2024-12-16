@@ -8,11 +8,11 @@ production-ready code, and thorough unit test coverage.
 
 A simplified scheme of the main functionality is displayed in the following image:
 
-![image info](./readme/system.jpg)
+![image info](readmeystem.jpg)
 
 A detailed UML-diagram of the component of the application:
 
-![image info](./readme/uml.jpg)
+![image info](readmeml.jpg)
 
 ## Features
 
