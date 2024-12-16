@@ -2,6 +2,8 @@ package hu.omixon.demultiplexer.configuration.strategy;
 
 import hu.omixon.demultiplexer.configuration.ConfigGroupDefinition;
 import hu.omixon.demultiplexer.configuration.result.DemultiplexerResult;
+import hu.omixon.demultiplexer.configuration.result.DemultiplexerResultGroup;
+import hu.omixon.demultiplexer.configuration.rule.ConfigRule;
 import hu.omixon.demultiplexer.configuration.rule.MidRule;
 import hu.omixon.demultiplexer.sequence.Sequence;
 import hu.omixon.demultiplexer.sequence.SequenceSample;
@@ -10,18 +12,32 @@ import org.junit.jupiter.api.Test;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 class BestMatchGroupingStrategyTest {
 
     @BeforeAll
     public static void setUp() {
+
         strategy = new BestMatchGroupingStrategy();
+
+        sequenceOne = Sequence.fromBaseChain("ATC");
+        sequenceTwo = Sequence.fromBaseChain("TTG");
+        sequenceThree = Sequence.fromBaseChain("CGC");
+        sequenceFour = Sequence.fromBaseChain("ATT");
     }
 
     private static BestMatchGroupingStrategy strategy;
+
+    private static Sequence sequenceOne;
+    private static Sequence sequenceTwo;
+    private static Sequence sequenceThree;
+    private static Sequence sequenceFour;
+
 
     @Test
     void testSplitSequenceToGroups_WithNullSample() {
@@ -53,6 +69,122 @@ class BestMatchGroupingStrategyTest {
         DemultiplexerResult result = strategy.splitSequenceToGroups(sequenceSample, Collections.emptyList());
 
         assertEquals(0, result.countGroups());
+    }
+
+    @Test
+    void testSplitSequenceToGroups_WithNoUnmatchedSequences() {
+
+        String groupNameOne = "GroupOne";
+        ConfigRule mockConfigRuleOne = mock(ConfigRule.class);
+        when(mockConfigRuleOne.getMatchValue(sequenceOne)).thenReturn(5);
+        when(mockConfigRuleOne.getMatchValue(sequenceTwo)).thenReturn(3);
+        ConfigGroupDefinition configGroupDefinitionOne = new ConfigGroupDefinition(groupNameOne, mockConfigRuleOne);
+
+        String groupNameTwo = "GroupTwo";
+        ConfigRule mockConfigRuleTwo = mock(ConfigRule.class);
+        when(mockConfigRuleTwo.getMatchValue(sequenceOne)).thenReturn(2);
+        when(mockConfigRuleTwo.getMatchValue(sequenceTwo)).thenReturn(6);
+        ConfigGroupDefinition configGroupDefinitionTwo = new ConfigGroupDefinition(groupNameTwo, mockConfigRuleTwo);
+
+        SequenceSample sample = new SequenceSample(List.of(sequenceOne, sequenceTwo));
+        List<ConfigGroupDefinition> groupDefinitions = List.of(configGroupDefinitionOne, configGroupDefinitionTwo);
+
+        DemultiplexerResult result = strategy.splitSequenceToGroups(sample, groupDefinitions);
+
+        assertEquals(2, result.countGroups());
+
+        Optional<DemultiplexerResultGroup> groupOne = result.findGroupByName(groupNameOne);
+        assertTrue(groupOne.isPresent());
+        assertEquals(1, groupOne.get().getSequences().size());
+        assertTrue(groupOne.get().getSequences().getFirst().equals(sequenceOne));
+
+        Optional<DemultiplexerResultGroup> groupTwo = result.findGroupByName(groupNameTwo);
+        assertTrue(groupTwo.isPresent());
+        assertEquals(1, groupTwo.get().getSequences().size());
+        assertTrue(groupTwo.get().getSequences().getFirst().equals(sequenceTwo));
+
+        assertEquals(0, result.getUnmatchedSequences().size());
+
+    }
+
+    @Test
+    void testSplitSequenceToGroups_WithUnmatchedSequences() {
+
+        String groupNameOne = "GroupOne";
+        ConfigRule mockConfigRuleOne = mock(ConfigRule.class);
+        when(mockConfigRuleOne.getMatchValue(sequenceOne)).thenReturn(5);
+        when(mockConfigRuleOne.getMatchValue(sequenceTwo)).thenReturn(3);
+        when(mockConfigRuleOne.getMatchValue(sequenceThree)).thenReturn(0);
+        when(mockConfigRuleOne.getMatchValue(sequenceFour)).thenReturn(1);
+        ConfigGroupDefinition configGroupDefinitionOne = new ConfigGroupDefinition(groupNameOne, mockConfigRuleOne);
+
+        String groupNameTwo = "GroupTwo";
+        ConfigRule mockConfigRuleTwo = mock(ConfigRule.class);
+        when(mockConfigRuleTwo.getMatchValue(sequenceOne)).thenReturn(2);
+        when(mockConfigRuleTwo.getMatchValue(sequenceTwo)).thenReturn(6);
+        when(mockConfigRuleTwo.getMatchValue(sequenceThree)).thenReturn(0);
+        when(mockConfigRuleTwo.getMatchValue(sequenceFour)).thenReturn(0);
+        ConfigGroupDefinition configGroupDefinitionTwo = new ConfigGroupDefinition(groupNameTwo, mockConfigRuleTwo);
+
+        SequenceSample sample = new SequenceSample(List.of(sequenceOne, sequenceTwo, sequenceThree, sequenceFour));
+        List<ConfigGroupDefinition> groupDefinitions = List.of(configGroupDefinitionOne, configGroupDefinitionTwo);
+
+        DemultiplexerResult result = strategy.splitSequenceToGroups(sample, groupDefinitions);
+
+        assertEquals(2, result.countGroups());
+
+        Optional<DemultiplexerResultGroup> groupOne = result.findGroupByName(groupNameOne);
+        assertTrue(groupOne.isPresent());
+        assertEquals(1, groupOne.get().getSequences().size());
+        assertTrue(groupOne.get().getSequences().getFirst().equals(sequenceOne));
+
+        Optional<DemultiplexerResultGroup> groupTwo = result.findGroupByName(groupNameTwo);
+        assertTrue(groupTwo.isPresent());
+        assertEquals(1, groupTwo.get().getSequences().size());
+        assertTrue(groupTwo.get().getSequences().getFirst().equals(sequenceTwo));
+
+        assertEquals(2, result.getUnmatchedSequences().size());
+        assertTrue(result.getUnmatchedSequences().containsAll(List.of(sequenceThree, sequenceFour)));
+
+    }
+
+    @Test
+    void testSplitSequenceToGroups_WithUnmatchedGroup() {
+
+        String groupNameOne = "GroupOne";
+        ConfigRule mockConfigRuleOne = mock(ConfigRule.class);
+        when(mockConfigRuleOne.getMatchValue(sequenceOne)).thenReturn(5);
+        when(mockConfigRuleOne.getMatchValue(sequenceTwo)).thenReturn(3);
+        when(mockConfigRuleOne.getMatchValue(sequenceThree)).thenReturn(0);
+        when(mockConfigRuleOne.getMatchValue(sequenceFour)).thenReturn(1);
+        ConfigGroupDefinition configGroupDefinitionOne = new ConfigGroupDefinition(groupNameOne, mockConfigRuleOne);
+
+        String groupNameTwo = "GroupTwo";
+        ConfigRule mockConfigRuleTwo = mock(ConfigRule.class);
+        when(mockConfigRuleTwo.getMatchValue(sequenceOne)).thenReturn(0);
+        when(mockConfigRuleTwo.getMatchValue(sequenceTwo)).thenReturn(0);
+        when(mockConfigRuleTwo.getMatchValue(sequenceThree)).thenReturn(0);
+        when(mockConfigRuleTwo.getMatchValue(sequenceFour)).thenReturn(0);
+        ConfigGroupDefinition configGroupDefinitionTwo = new ConfigGroupDefinition(groupNameTwo, mockConfigRuleTwo);
+
+        SequenceSample sample = new SequenceSample(List.of(sequenceOne, sequenceTwo, sequenceThree, sequenceFour));
+        List<ConfigGroupDefinition> groupDefinitions = List.of(configGroupDefinitionOne, configGroupDefinitionTwo);
+
+        DemultiplexerResult result = strategy.splitSequenceToGroups(sample, groupDefinitions);
+
+        assertEquals(1, result.countGroups());
+
+        Optional<DemultiplexerResultGroup> groupOne = result.findGroupByName(groupNameOne);
+        assertTrue(groupOne.isPresent());
+        assertEquals(1, groupOne.get().getSequences().size());
+        assertTrue(groupOne.get().getSequences().getFirst().equals(sequenceOne));
+
+        Optional<DemultiplexerResultGroup> groupTwo = result.findGroupByName(groupNameTwo);
+        assertTrue(groupTwo.isEmpty());
+
+        assertEquals(3, result.getUnmatchedSequences().size());
+        assertTrue(result.getUnmatchedSequences().containsAll(List.of(sequenceTwo, sequenceThree, sequenceFour)));
+
     }
 
 

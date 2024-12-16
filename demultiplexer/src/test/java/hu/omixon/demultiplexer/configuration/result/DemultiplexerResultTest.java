@@ -116,7 +116,7 @@ class DemultiplexerResultTest {
     @Test
     void testCollectUnmatchedSequences_WithNoGroups() {
         result.collectUnmatchedSequences(List.of(Sequence.fromBaseChain("ACGT")));
-        assertNull(result.getUnmatchedSequences());
+        assertTrue(result.getUnmatchedSequences().isEmpty());
     }
 
     @Test

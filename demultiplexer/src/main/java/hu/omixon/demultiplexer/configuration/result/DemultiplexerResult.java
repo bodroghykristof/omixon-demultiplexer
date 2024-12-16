@@ -4,10 +4,7 @@ import hu.omixon.demultiplexer.sequence.Sequence;
 import lombok.Getter;
 import lombok.ToString;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Getter @ToString
@@ -17,6 +14,10 @@ public final class DemultiplexerResult {
     private List<Sequence> unmatchedSequences;
 
     public void addResult(String groupName, Sequence sequence) {
+
+        if (sequence == null) {
+            return;
+        }
 
         if (this.groups == null) {
             this.groups = new ArrayList<>();
@@ -68,6 +69,10 @@ public final class DemultiplexerResult {
                                         .filter(e -> !matchedSequences.contains(e))
                                         .toList();
 
+    }
+
+    public List<Sequence> getUnmatchedSequences() {
+        return this.unmatchedSequences == null ? Collections.emptyList() : this.unmatchedSequences;
     }
 
 }

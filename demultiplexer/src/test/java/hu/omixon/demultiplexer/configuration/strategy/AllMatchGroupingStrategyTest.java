@@ -60,7 +60,7 @@ class AllMatchGroupingStrategyTest {
     }
 
     @Test
-    void testIsMatch_DelegatesToConfigRule() {
+    void testSplitSequenceToGroups() {
 
         Sequence sequenceOne = Sequence.fromBaseChain("ATC");
         Sequence sequenceTwo = Sequence.fromBaseChain("TTG");

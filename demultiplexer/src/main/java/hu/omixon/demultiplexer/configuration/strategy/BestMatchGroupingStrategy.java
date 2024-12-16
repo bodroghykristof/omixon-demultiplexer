@@ -5,6 +5,7 @@ import hu.omixon.demultiplexer.configuration.result.DemultiplexerResult;
 import hu.omixon.demultiplexer.sequence.Sequence;
 import hu.omixon.demultiplexer.sequence.SequenceSample;
 
+import java.util.Comparator;
 import java.util.List;
 
 public class BestMatchGroupingStrategy implements GroupingStrategy {
@@ -18,7 +19,22 @@ public class BestMatchGroupingStrategy implements GroupingStrategy {
 
         DemultiplexerResult result = new DemultiplexerResult();
 
-        // TODO add logic
+        for (ConfigGroupDefinition group : groupDefinitions) {
+
+            Sequence bestMatch = null;
+            int highestMatchValue = 0; // Initialize to 0 to only allow positive matches
+
+            for (Sequence sequence : sample.sequences()) {
+                int matchValue = group.getMatchValue(sequence);
+
+                if (matchValue > highestMatchValue) {
+                    highestMatchValue = matchValue;
+                    bestMatch = sequence;
+                }
+            }
+
+            result.addResult(group.groupName(), bestMatch);
+        }
 
         result.collectUnmatchedSequences(sample.sequences());
         return result;
