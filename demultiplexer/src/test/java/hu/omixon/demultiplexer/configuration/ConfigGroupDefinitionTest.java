@@ -13,9 +13,7 @@ class ConfigGroupDefinitionTest {
     void testConstructor_WithNullRule() {
         String groupName = "TestGroup";
 
-        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
-            new ConfigGroupDefinition(groupName, null);
-        });
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> new ConfigGroupDefinition(groupName, null));
         assertEquals("Config rule must not be null", exception.getMessage());
     }
 

@@ -98,12 +98,12 @@ class BestMatchGroupingStrategyTest {
         Optional<DemultiplexerResultGroup> groupOne = result.findGroupByName(groupNameOne);
         assertTrue(groupOne.isPresent());
         assertEquals(1, groupOne.get().getSequences().size());
-        assertTrue(groupOne.get().getSequences().getFirst().equals(sequenceOne));
+        assertEquals(groupOne.get().getSequences().getFirst(), sequenceOne);
 
         Optional<DemultiplexerResultGroup> groupTwo = result.findGroupByName(groupNameTwo);
         assertTrue(groupTwo.isPresent());
         assertEquals(1, groupTwo.get().getSequences().size());
-        assertTrue(groupTwo.get().getSequences().getFirst().equals(sequenceTwo));
+        assertEquals(groupTwo.get().getSequences().getFirst(), sequenceTwo);
 
         assertEquals(0, result.collectUnmatchedSequences(sequenceSample.sequences()).size());
 
@@ -140,12 +140,12 @@ class BestMatchGroupingStrategyTest {
         Optional<DemultiplexerResultGroup> groupOne = result.findGroupByName(groupNameOne);
         assertTrue(groupOne.isPresent());
         assertEquals(1, groupOne.get().getSequences().size());
-        assertTrue(groupOne.get().getSequences().getFirst().equals(sequenceOne));
+        assertEquals(groupOne.get().getSequences().getFirst(), sequenceOne);
 
         Optional<DemultiplexerResultGroup> groupTwo = result.findGroupByName(groupNameTwo);
         assertTrue(groupTwo.isPresent());
         assertEquals(1, groupTwo.get().getSequences().size());
-        assertTrue(groupTwo.get().getSequences().getFirst().equals(sequenceTwo));
+        assertEquals(groupTwo.get().getSequences().getFirst(), sequenceTwo);
 
         List<Sequence> unmatchedSequences = result.collectUnmatchedSequences(sequenceSample.sequences());
         assertEquals(2, unmatchedSequences.size());
@@ -183,7 +183,7 @@ class BestMatchGroupingStrategyTest {
         Optional<DemultiplexerResultGroup> groupOne = result.findGroupByName(groupNameOne);
         assertTrue(groupOne.isPresent());
         assertEquals(1, groupOne.get().getSequences().size());
-        assertTrue(groupOne.get().getSequences().getFirst().equals(sequenceOne));
+        assertEquals(groupOne.get().getSequences().getFirst(), sequenceOne);
 
         Optional<DemultiplexerResultGroup> groupTwo = result.findGroupByName(groupNameTwo);
         assertTrue(groupTwo.isEmpty());
