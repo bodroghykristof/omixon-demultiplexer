@@ -95,6 +95,10 @@ public class DataConversionService {
 
     private void writeGroups(DemultiplexerResult result, String outputFilePrefix) throws IOException {
 
+        if (result.getGroups() == null) {
+            return;
+        }
+
         for (DemultiplexerResultGroup resultGroup : result.getGroups()) {
 
             if (!resultGroup.getSequences().isEmpty()) {
