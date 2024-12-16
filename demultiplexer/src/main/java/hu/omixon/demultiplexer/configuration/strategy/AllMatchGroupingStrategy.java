@@ -19,7 +19,6 @@ public class AllMatchGroupingStrategy implements GroupingStrategy {
             for (ConfigGroupDefinition groupDefinition : groupDefinitions) {
                 if (groupDefinition.isMatch(sequence)) {
                     result.addResult(groupDefinition.groupName(), sequence);
-                    break;
                 }
             }
         }
